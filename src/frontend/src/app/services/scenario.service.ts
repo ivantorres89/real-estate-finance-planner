@@ -35,6 +35,10 @@ export class ScenarioService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
+  duplicate(id: string): Observable<ScenarioListItem> {
+    return this.http.post<ScenarioListItem>(`${this.baseUrl}/${id}/duplicate`, {});
+  }
+
   runAnalysis(id: string): Observable<AnalysisResultResponse> {
     return this.http.post<AnalysisResultResponse>(`${this.baseUrl}/${id}/analyze`, {});
   }

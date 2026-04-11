@@ -11,10 +11,13 @@ export const translations: Record<string, string> = {
   colUpdated: 'Actualizado',
   colAnalyzed: 'Analizado',
   deleteTooltip: 'Eliminar',
+  duplicateTooltip: 'Duplicar',
   newScenario: 'Nuevo Escenario',
   errorLoadingScenarios: 'Error al cargar escenarios',
   scenarioDeleted: 'Escenario eliminado',
+  scenarioDuplicated: 'Escenario duplicado',
   errorDeletingScenario: 'Error al eliminar escenario',
+  errorDuplicatingScenario: 'Error al duplicar escenario',
   snackClose: 'Cerrar',
 
   // Scenario Detail

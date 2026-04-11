@@ -29,6 +29,7 @@ export class ScenarioListComponent implements OnInit {
   displayedColumns = ['name', 'createdAt', 'updatedAt', 'hasResults', 'actions'];
   loading = true;
   deleteTooltipText = $localize`:@@deleteTooltip:Delete`;
+  duplicateTooltipText = $localize`:@@duplicateTooltip:Duplicate`;
 
   constructor(
     private readonly scenarioService: ScenarioService,
@@ -75,6 +76,21 @@ export class ScenarioListComponent implements OnInit {
       },
       error: () => {
         this.snackBar.open($localize`:@@errorDeletingScenario:Error deleting scenario`, $localize`:@@snackClose:Close`, { duration: 3000 });
+        this.cdr.markForCheck();
+      },
+    });
+  }
+
+  duplicateScenario(id: string, event: Event): void {
+    event.stopPropagation();
+    this.scenarioService.duplicate(id).subscribe({
+      next: (created) => {
+        this.scenarios = [...this.scenarios, created];
+        this.snackBar.open($localize`:@@scenarioDuplicated:Scenario duplicated`, $localize`:@@snackClose:Close`, { duration: 2000 });
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.snackBar.open($localize`:@@errorDuplicatingScenario:Error duplicating scenario`, $localize`:@@snackClose:Close`, { duration: 3000 });
         this.cdr.markForCheck();
       },
     });

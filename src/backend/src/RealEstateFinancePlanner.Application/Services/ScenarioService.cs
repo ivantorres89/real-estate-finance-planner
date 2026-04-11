@@ -36,6 +36,27 @@ public class ScenarioService
     public Task<bool> DeleteAsync(string id, CancellationToken ct = default)
         => _repository.DeleteAsync(id, ct);
 
+    public async Task<Scenario> DuplicateAsync(string sourceId, CancellationToken ct = default)
+    {
+        var source = await _repository.GetByIdAsync(sourceId, ct)
+            ?? throw new KeyNotFoundException($"Scenario '{sourceId}' not found.");
+
+        var clone = new Scenario
+        {
+            Name = $"Copy of {source.Name}",
+            Sale = source.Sale,
+            Purchase = source.Purchase,
+            DebtCapacity = source.DebtCapacity,
+            Banks = source.Banks,
+            StrategyParameters = source.StrategyParameters,
+            LastResult = null,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow,
+        };
+
+        return await _repository.CreateAsync(clone, ct);
+    }
+
     public async Task<AnalysisResult> RunAnalysisAsync(string scenarioId, CancellationToken ct = default)
     {
         var scenario = await _repository.GetByIdAsync(scenarioId, ct)

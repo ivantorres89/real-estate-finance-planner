@@ -71,6 +71,22 @@ public class ScenariosController : ControllerBase
         return NoContent();
     }
 
+    [HttpPost("{id}/duplicate")]
+    [ProducesResponseType(typeof(ScenarioListItem), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> Duplicate(string id, CancellationToken ct)
+    {
+        try
+        {
+            var duplicated = await _scenarioService.DuplicateAsync(id, ct);
+            return CreatedAtAction(nameof(GetById), new { id = duplicated.Id }, duplicated.ToListItem());
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound();
+        }
+    }
+
     [HttpPost("{id}/analyze")]
     [ProducesResponseType(typeof(AnalysisResultResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
