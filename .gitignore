@@ -1,0 +1,56 @@
+# Build artifacts
+bin/
+obj/
+publish/
+out/
+
+# .NET tooling
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# IDE and tooling
+.vs/
+.vscode/
+.idea/
+*.DotSettings.user
+launchSettings.json
+
+# Test results
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# OS files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# Environment and secrets
+.env
+*.secrets.json
+secrets.dev.yaml
+appsettings.*.local.json
+
+# Docker
+docker-compose.override.yml
+
+# Logs
+logs/
+*.log
+
+# Rider
+.idea/
+*.sln.iml
