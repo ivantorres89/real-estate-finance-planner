@@ -1,8 +1,21 @@
 # =========================
 # .NET build artifacts
 # =========================
-bin/
-obj/
+**/bin/
+**/obj/
+*.dll
+*.pdb
+*.exe
+*.cache
+*.nupkg
+*.snupkg
+*.user
+*.suo
+project.assets.json
+*.nuget.dgspec.json
+*.nuget.g.props
+*.nuget.g.targets
+*.nuget.cache
 
 # =========================
 # IDEs
@@ -10,9 +23,7 @@ obj/
 .vs/
 .vscode/
 .idea/
-
-*.user
-*.suo
+*.sln.DotSettings.user
 
 # =========================
 # Logs
@@ -21,39 +32,36 @@ logs/
 *.log
 
 # =========================
-# Node (frontend)
+# Node / Angular (frontend)
 # =========================
 node_modules/
 dist/
 build/
 coverage/
-.angular/cache/
 .angular/
-.vite/
-.parcel-cache/
 .cache/
 .eslintcache
 .stylelintcache
-.swc/
-.nx/
-.turbo/
-.svelte-kit/
-.storybook/out/
 out/
 
-# npm / yarn / pnpm logs
+# npm / yarn / pnpm logs & artifacts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 pnpm-error.log*
-lerna-debug.log*
-
-# Package manager artifacts
 .npm/
 .pnpm-store/
 .yarn/
 .pnp.*
+
+# =========================
+# Playwright (e2e)
+# =========================
+**/playwright-report/
+**/test-results/
+**/blob-report/
+**/playwright/.cache/
 
 # =========================
 # Environment & secrets
@@ -62,7 +70,6 @@ lerna-debug.log*
 .env.*
 !.env.example
 *.secrets.json
-*.tfvars
 
 # =========================
 # Docker
@@ -70,58 +77,8 @@ lerna-debug.log*
 **/docker-compose.override.yml
 
 # =========================
-# Terraform
-# =========================
-.terraform/
-
-# =========================
 # OS
 # =========================
 .DS_Store
 Thumbs.db
-
-# =========================
-# Local HTTPS certificates
-# =========================
-infra/local/certs/*.pfx
-infra/local/certs/*.pem
-infra/local/certs/*.key
-
-# =========================
-# Backstage / Developer Portal
-# =========================
-
-# Local Backstage configs (often contain secrets)
-app-config.local.yaml
-app-config.*.local.yaml
-backstage/app-config.local.yaml
-backstage/app-config.*.local.yaml
-
-# Backstage generated build output & caches (monorepo safe)
-backstage/packages/**/dist/
-backstage/packages/**/dist-types/
-backstage/packages/**/.cache/
-
-# TechDocs (MkDocs) generated site output
-**/site/
-**/.techdocs/
-
-# TechDocs local publisher output (generated HTML)
-backstage/packages/backend/static/
-
-# Backstage local databases / state (if using sqlite in dev)
-backstage/packages/backend/**/*.db
-backstage/packages/backend/**/*.sqlite
-backstage/packages/backend/**/data/
-
-# Backstage temp files
-backstage/.backstage/
-backstage/tmp/
-backstage/temp/
-
-# =========================
-# Structurizr (C4) / Structurizr Lite
-# =========================
-# Structurizr Lite creates a local cache/index folder next to the workspace file.
-# Example: architecture/structurizr/.structurizr/index/*
-**/.structurizr/
+Desktop.ini
