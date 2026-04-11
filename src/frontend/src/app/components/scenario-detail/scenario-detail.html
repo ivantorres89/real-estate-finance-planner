@@ -10,11 +10,11 @@
       </button>
       <input class="scenario-name-input"
              [(ngModel)]="model.name"
-             placeholder="Scenario name" />
+             [placeholder]="scenarioNamePlaceholder" />
       <span class="spacer"></span>
       <button mat-flat-button color="primary" (click)="save()" [disabled]="saving || !model.name">
         <mat-icon>save</mat-icon>
-        {{ saving ? 'Saving...' : 'Save' }}
+        {{ saveButtonText }}
       </button>
       @if (!isNew) {
         <button mat-flat-button color="accent"
@@ -22,14 +22,14 @@
                 [disabled]="analyzing"
                 class="analyze-btn">
           <mat-icon>analytics</mat-icon>
-          {{ analyzing ? 'Analyzing...' : 'Run Analysis' }}
+          {{ analyzeButtonText }}
         </button>
       }
     </div>
 
     <mat-tab-group animationDuration="200ms">
       <!-- Tab 1: Sale & Liquidity -->
-      <mat-tab label="Sale & Liquidity">
+      <mat-tab [label]="tabSaleLiquidityLabel">
         <div class="tab-content">
           <app-sale-data [sale]="model.sale"
                          [debtCapacity]="model.debtCapacity">
@@ -38,7 +38,7 @@
       </mat-tab>
 
       <!-- Tab 2: Purchase -->
-      <mat-tab label="Purchase">
+      <mat-tab [label]="tabPurchaseLabel">
         <div class="tab-content">
           <app-purchase-data [purchase]="model.purchase"></app-purchase-data>
         </div>
@@ -48,7 +48,7 @@
       @for (bank of model.banks; track trackByIndex($index)) {
         <mat-tab>
           <ng-template mat-tab-label>
-            <span>{{ bank.bankName || 'Bank ' + ($index + 1) }}</span>
+            <span>{{ bank.bankName || bankDefaultLabel($index) }}</span>
             <button mat-icon-button class="tab-close"
                     (click)="removeBank($index); $event.stopPropagation()">
               <mat-icon>close</mat-icon>
@@ -61,16 +61,16 @@
       }
 
       <!-- Add Bank Tab -->
-      <mat-tab disabled>
+      <mat-tab>
         <ng-template mat-tab-label>
-          <button mat-icon-button (click)="addBank()">
+          <button mat-icon-button (click)="addBank(); $event.stopPropagation()">
             <mat-icon>add</mat-icon>
           </button>
         </ng-template>
       </mat-tab>
 
       <!-- Strategy Parameters -->
-      <mat-tab label="Strategy">
+      <mat-tab [label]="tabStrategyLabel">
         <div class="tab-content">
           <app-strategy-comparison [params]="model.strategyParameters">
           </app-strategy-comparison>
@@ -79,7 +79,7 @@
 
       <!-- Results -->
       @if (analysisResult) {
-        <mat-tab label="Results">
+        <mat-tab [label]="tabResultsLabel">
           <div class="tab-content">
             <app-analysis-results [result]="analysisResult"></app-analysis-results>
           </div>

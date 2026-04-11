@@ -1,46 +1,46 @@
 <mat-card>
   <mat-card-header>
-    <mat-card-title>Strategy Parameters</mat-card-title>
+    <mat-card-title i18n="@@strategyParameters">Strategy Parameters</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <div class="fields-grid">
       <mat-form-field>
-        <mat-label>Conservative Return (%)</mat-label>
+        <mat-label i18n="@@conservativeReturn">Conservative Return (%)</mat-label>
         <input matInput type="number" [(ngModel)]="params.expectedAnnualReturnConservative" min="0" max="100" step="0.5" />
         <span matTextSuffix>&nbsp;%</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Base Return (%)</mat-label>
+        <mat-label i18n="@@baseReturn">Base Return (%)</mat-label>
         <input matInput type="number" [(ngModel)]="params.expectedAnnualReturnBase" min="0" max="100" step="0.5" />
         <span matTextSuffix>&nbsp;%</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Optimistic Return (%)</mat-label>
+        <mat-label i18n="@@optimisticReturn">Optimistic Return (%)</mat-label>
         <input matInput type="number" [(ngModel)]="params.expectedAnnualReturnOptimistic" min="0" max="100" step="0.5" />
         <span matTextSuffix>&nbsp;%</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Analysis Horizon (years)</mat-label>
+        <mat-label i18n="@@analysisHorizonYears">Analysis Horizon (years)</mat-label>
         <input matInput type="number" [(ngModel)]="params.analysisHorizonYears" min="1" max="50" />
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Minimum Liquidity Cushion</mat-label>
+        <mat-label i18n="@@minimumLiquidityCushion">Minimum Liquidity Cushion</mat-label>
         <input matInput type="number" [(ngModel)]="params.minimumLiquidityCushion" min="0" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Additional Capital to Preserve</mat-label>
+        <mat-label i18n="@@additionalCapitalToPreserve">Additional Capital to Preserve</mat-label>
         <input matInput type="number" [(ngModel)]="params.additionalCapitalToPreserve" min="0" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label>Risk Profile</mat-label>
+        <mat-label i18n="@@riskProfile">Risk Profile</mat-label>
         <mat-select [(ngModel)]="params.riskProfile">
           @for (profile of riskProfiles; track profile) {
             <mat-option [value]="profile">{{ profile }}</mat-option>
@@ -49,7 +49,7 @@
       </mat-form-field>
 
       <div class="checkbox-field">
-        <mat-checkbox [(ngModel)]="params.useNetReturns">Use Net Returns</mat-checkbox>
+        <mat-checkbox [(ngModel)]="params.useNetReturns" i18n="@@useNetReturns">Use Net Returns</mat-checkbox>
       </div>
     </div>
   </mat-card-content>

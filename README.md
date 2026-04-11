@@ -27,7 +27,7 @@ docker-compose.yml                 3-service orchestration
 - **Domain** - Zero external dependencies. Contains entities, value objects (`Money`, `Percentage`), enums, and domain services (calculators, evaluators, recommendation engine).
 - **Application** - Orchestrates domain services. Defines repository interfaces. No framework dependencies.
 - **Infrastructure** - MongoDB persistence with `Decimal128` serializer for financial precision. Dependency injection registration.
-- **API** - ASP.NET Core controllers, request/response DTOs with validation, Swagger/OpenAPI.
+- **API** - ASP.NET Core controllers, request/response DTOs with validation, Scalar/OpenAPI.
 
 ## Tech Stack
 
@@ -49,7 +49,7 @@ docker compose up --build
 
 - **Frontend**: http://localhost:4200
 - **Backend API**: http://localhost:5000
-- **Swagger**: http://localhost:5000/swagger
+- **API Docs (Scalar)**: http://localhost:5000/scalar/v1
 - **MongoDB**: localhost:27017
 
 ### Local Development
@@ -130,6 +130,12 @@ dotnet test tests/RealEstateFinancePlanner.Tests.Unit
 
 # Integration tests (requires Docker)
 dotnet test tests/RealEstateFinancePlanner.Tests.Integration
+
+# E2E tests (requires Docker stack running)
+cd tests/e2e
+npm install
+npx playwright install chromium
+npx playwright test
 ```
 
 ## Project Decisions

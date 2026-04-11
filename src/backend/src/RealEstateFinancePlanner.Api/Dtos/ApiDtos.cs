@@ -31,8 +31,8 @@ public class SaleDataDto
 
 public class PurchaseDataDto
 {
-    [Range(0.01, double.MaxValue)] public decimal PurchasePrice { get; set; }
-    [Range(0.01, double.MaxValue)] public decimal DeedPrice { get; set; }
+    [Range(0, double.MaxValue)] public decimal PurchasePrice { get; set; }
+    [Range(0, double.MaxValue)] public decimal DeedPrice { get; set; }
     [Range(0, 100)] public decimal FinanceablePercentage { get; set; } = 80m;
     [Range(0, double.MaxValue)] public decimal NotaryCosts { get; set; }
     [Range(0, double.MaxValue)] public decimal AdministrativeCosts { get; set; }

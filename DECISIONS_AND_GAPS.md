@@ -83,7 +83,7 @@ Using annual compounding for simplicity and clarity. Monthly compounding would b
 | Single MongoDB document | Simplicity over query flexibility. Acceptable for single-user local tool. |
 | Annual compounding for investments | Simplicity over precision. Difference is marginal for recommendation purposes. |
 | No authentication | As requested. Would need to be added for any multi-user scenario. |
-| Swagger UI in all environments | Convenience for development and testing. In production, it would be behind auth. |
+| Scalar API docs in all environments | Convenience for development and testing. In production, it would be behind auth. |
 | Bonus TIN applied for full term | Slight overestimation of benefit for time-limited bonuses. Clear enough for decision-making. |
 
 ## Future Evolution Opportunities

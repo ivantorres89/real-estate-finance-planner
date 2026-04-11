@@ -83,7 +83,7 @@ Se usa capitalizacion anual por simplicidad y claridad. La capitalizacion mensua
 | Documento unico MongoDB | Simplicidad sobre flexibilidad de consultas. Aceptable para herramienta local monousuario. |
 | Capitalizacion anual para inversiones | Simplicidad sobre precision. La diferencia es marginal para propositos de recomendacion. |
 | Sin autenticacion | Segun lo solicitado. Necesitaria anadirse para cualquier escenario multiusuario. |
-| Swagger UI en todos los entornos | Conveniencia para desarrollo y pruebas. |
+| Scalar API docs en todos los entornos | Conveniencia para desarrollo y pruebas. |
 | TIN de bonificacion aplicado todo el plazo | Ligera sobreestimacion del beneficio para bonificaciones con duracion limitada. |
 
 ## Oportunidades de evolucion futura

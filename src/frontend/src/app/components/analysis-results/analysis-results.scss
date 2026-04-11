@@ -20,7 +20,7 @@
 
 .kpi-label {
   font-size: 0.85rem;
-  color: rgba(0, 0, 0, 0.54);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .kpi-value {
@@ -29,7 +29,7 @@
 }
 
 .highlight {
-  color: #1976d2;
+  color: #64b5f6;
   font-weight: 600;
 }
 
@@ -55,7 +55,7 @@
 }
 
 .bank-result-card {
-  border-left: 4px solid #1976d2;
+  border-left: 4px solid #64b5f6;
 }
 
 .recommendation-chip {
@@ -78,7 +78,7 @@
 .strategy-col h4 {
   margin-bottom: 12px;
   font-size: 1.1rem;
-  color: #1976d2;
+  color: #64b5f6;
 }
 
 .kpi-col {
@@ -91,10 +91,10 @@
   display: flex;
   justify-content: space-between;
   padding: 4px 0;
-  border-bottom: 1px solid #f0f0f0;
+border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 
   span:first-child {
-    color: rgba(0, 0, 0, 0.54);
+    color: rgba(255, 255, 255, 0.6);
     font-size: 0.9rem;
   }
 
@@ -111,7 +111,7 @@
   padding-top: 16px;
 
   p {
-    background: #f5f5f5;
+    background: rgba(255, 255, 255, 0.08);
     padding: 16px;
     border-radius: 8px;
     line-height: 1.6;
@@ -127,16 +127,16 @@ h4 {
 }
 
 .rec-recommended {
-  background-color: #e8f5e9 !important;
-  color: #2e7d32 !important;
+  background-color: rgba(76, 175, 80, 0.2) !important;
+  color: #81c784 !important;
 }
 
 .rec-questionable {
-  background-color: #fff3e0 !important;
-  color: #e65100 !important;
+  background-color: rgba(255, 152, 0, 0.2) !important;
+  color: #ffb74d !important;
 }
 
 .rec-notworthit {
-  background-color: #ffebee !important;
-  color: #c62828 !important;
+  background-color: rgba(244, 67, 54, 0.2) !important;
+  color: #e57373 !important;
 }

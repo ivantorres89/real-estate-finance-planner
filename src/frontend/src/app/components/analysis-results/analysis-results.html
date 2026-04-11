@@ -2,16 +2,16 @@
   <!-- Sale Liquidity -->
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Sale & Liquidity</mat-card-title>
+      <mat-card-title i18n="@@resultSaleLiquidity">Sale & Liquidity</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="kpi-row">
         <div class="kpi">
-          <span class="kpi-label">Net Sale Liquidity</span>
+          <span class="kpi-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
           <span class="kpi-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Real Available Cash</span>
+          <span class="kpi-label" i18n="@@realAvailableCash">Real Available Cash</span>
           <span class="kpi-value highlight">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
         </div>
       </div>
@@ -21,34 +21,34 @@
   <!-- Purchase Costs -->
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Purchase Costs</mat-card-title>
+      <mat-card-title i18n="@@purchaseCosts">Purchase Costs</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="kpi-row">
         <div class="kpi">
-          <span class="kpi-label">ITP</span>
+          <span class="kpi-label" i18n="@@itp">ITP</span>
           <span class="kpi-value">{{ result.purchaseCosts.itpAmount | eur }}</span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Max Mortgage</span>
+          <span class="kpi-label" i18n="@@maxMortgage">Max Mortgage</span>
           <span class="kpi-value">{{ result.purchaseCosts.maxMortgageAmount | eur }}</span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Entry Payment</span>
+          <span class="kpi-label" i18n="@@entryPayment">Entry Payment</span>
           <span class="kpi-value">{{ result.purchaseCosts.entryPayment | eur }}</span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Total Cash Needed</span>
+          <span class="kpi-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
           <span class="kpi-value">{{ result.purchaseCosts.totalCashNeeded | eur }}</span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Remaining Liquidity</span>
+          <span class="kpi-label" i18n="@@remainingLiquidity">Remaining Liquidity</span>
           <span class="kpi-value" [class.negative]="result.purchaseCosts.remainingLiquidity < 0">
             {{ result.purchaseCosts.remainingLiquidity | eur }}
           </span>
         </div>
         <div class="kpi">
-          <span class="kpi-label">Viable?</span>
+          <span class="kpi-label" i18n="@@viable">Viable?</span>
           <mat-icon [class.viable]="result.purchaseCosts.isViable"
                     [class.not-viable]="!result.purchaseCosts.isViable">
             {{ result.purchaseCosts.isViable ? 'check_circle' : 'cancel' }}
@@ -61,12 +61,12 @@
   <!-- Debt Capacity -->
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Debt Capacity</mat-card-title>
+      <mat-card-title i18n="@@resultDebtCapacity">Debt Capacity</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="kpi-row">
         <div class="kpi">
-          <span class="kpi-label">Max Monthly Payment</span>
+          <span class="kpi-label" i18n="@@maxMonthlyPayment">Max Monthly Payment</span>
           <span class="kpi-value highlight">{{ result.debtCapacity.maxMonthlyPaymentCapacity | eur }}</span>
         </div>
       </div>
@@ -89,56 +89,56 @@
       <mat-card-content>
         <div class="kpi-row">
           <div class="kpi">
-            <span class="kpi-label">Base TIN</span>
+            <span class="kpi-label" i18n="@@baseTin">Base TIN</span>
             <span class="kpi-value">{{ bank.baseTin | number: '1.2-2' }}%</span>
           </div>
           <div class="kpi">
-            <span class="kpi-label">Max Discounted TIN</span>
+            <span class="kpi-label" i18n="@@maxDiscountedTin">Max Discounted TIN</span>
             <span class="kpi-value">{{ bank.maxTheoreticalDiscountedTin | number: '1.2-2' }}%</span>
           </div>
           <div class="kpi">
-            <span class="kpi-label">Final Real TIN</span>
+            <span class="kpi-label" i18n="@@finalRealTin">Final Real TIN</span>
             <span class="kpi-value highlight">{{ bank.finalRealTin | number: '1.2-2' }}%</span>
           </div>
           <div class="kpi">
-            <span class="kpi-label">Total Bonus Cost</span>
+            <span class="kpi-label" i18n="@@totalBonusCost">Total Bonus Cost</span>
             <span class="kpi-value">{{ bank.totalAcceptedBonusCost | eur }}</span>
           </div>
           <div class="kpi">
-            <span class="kpi-label">Real Global Cost</span>
+            <span class="kpi-label" i18n="@@realGlobalCost">Real Global Cost</span>
             <span class="kpi-value highlight">{{ bank.realGlobalCost | eur }}</span>
           </div>
         </div>
 
         <!-- Mortgage table -->
-        <h4>Mortgage Options</h4>
+        <h4 i18n="@@mortgageOptions">Mortgage Options</h4>
         <table mat-table [dataSource]="bank.mortgagesByTerm" class="inner-table">
           <ng-container matColumnDef="termYears">
-            <th mat-header-cell *matHeaderCellDef>Term</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colTerm">Term</th>
             <td mat-cell *matCellDef="let m">{{ m.termYears }} yr</td>
           </ng-container>
           <ng-container matColumnDef="tinPercentage">
-            <th mat-header-cell *matHeaderCellDef>TIN %</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colTinPercentage">TIN %</th>
             <td mat-cell *matCellDef="let m">{{ m.tinPercentage | number: '1.2-2' }}%</td>
           </ng-container>
           <ng-container matColumnDef="monthlyPayment">
-            <th mat-header-cell *matHeaderCellDef>Monthly</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colMonthly">Monthly</th>
             <td mat-cell *matCellDef="let m">{{ m.monthlyPayment | eur }}</td>
           </ng-container>
           <ng-container matColumnDef="totalPaid">
-            <th mat-header-cell *matHeaderCellDef>Total Paid</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colTotalPaid">Total Paid</th>
             <td mat-cell *matCellDef="let m">{{ m.totalPaid | eur }}</td>
           </ng-container>
           <ng-container matColumnDef="totalInterest">
-            <th mat-header-cell *matHeaderCellDef>Total Interest</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colTotalInterest">Total Interest</th>
             <td mat-cell *matCellDef="let m">{{ m.totalInterest | eur }}</td>
           </ng-container>
           <ng-container matColumnDef="debtRatio">
-            <th mat-header-cell *matHeaderCellDef>Debt Ratio</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colDebtRatio">Debt Ratio</th>
             <td mat-cell *matCellDef="let m">{{ m.resultingDebtRatio | number: '1.1-1' }}%</td>
           </ng-container>
           <ng-container matColumnDef="freeCash">
-            <th mat-header-cell *matHeaderCellDef>Free Cash</th>
+            <th mat-header-cell *matHeaderCellDef i18n="@@colFreeCash">Free Cash</th>
             <td mat-cell *matCellDef="let m">{{ m.remainingMonthlyFreeCash | eur }}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="mortgageCols"></tr>
@@ -147,22 +147,22 @@
 
         <!-- Bonus evaluations -->
         @if (bank.bonusEvaluations.length > 0) {
-          <h4>Bonus Evaluations</h4>
+          <h4 i18n="@@bonusEvaluations">Bonus Evaluations</h4>
           <table mat-table [dataSource]="bank.bonusEvaluations" class="inner-table">
             <ng-container matColumnDef="bonusName">
-              <th mat-header-cell *matHeaderCellDef>Bonus</th>
+              <th mat-header-cell *matHeaderCellDef i18n="@@colBonus">Bonus</th>
               <td mat-cell *matCellDef="let b">{{ b.bonusName }}</td>
             </ng-container>
             <ng-container matColumnDef="interestSavings">
-              <th mat-header-cell *matHeaderCellDef>Interest Savings</th>
+              <th mat-header-cell *matHeaderCellDef i18n="@@colInterestSavings">Interest Savings</th>
               <td mat-cell *matCellDef="let b">{{ b.interestSavings | eur }}</td>
             </ng-container>
             <ng-container matColumnDef="totalCost">
-              <th mat-header-cell *matHeaderCellDef>Bonus Cost</th>
+              <th mat-header-cell *matHeaderCellDef i18n="@@colBonusCost">Bonus Cost</th>
               <td mat-cell *matCellDef="let b">{{ b.totalBonusCost | eur }}</td>
             </ng-container>
             <ng-container matColumnDef="netGain">
-              <th mat-header-cell *matHeaderCellDef>Net Gain/Loss</th>
+              <th mat-header-cell *matHeaderCellDef i18n="@@colNetGainLoss">Net Gain/Loss</th>
               <td mat-cell *matCellDef="let b"
                   [class.positive]="b.netGainOrLoss >= 0"
                   [class.negative]="b.netGainOrLoss < 0">
@@ -170,7 +170,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="worthIt">
-              <th mat-header-cell *matHeaderCellDef>Worth It?</th>
+              <th mat-header-cell *matHeaderCellDef i18n="@@colWorthIt">Worth It?</th>
               <td mat-cell *matCellDef="let b">
                 <mat-icon [class.viable]="b.isWorthIt" [class.not-viable]="!b.isWorthIt">
                   {{ b.isWorthIt ? 'thumb_up' : 'thumb_down' }}
@@ -190,7 +190,7 @@
     <mat-card class="strategy-card">
       <mat-card-header>
         <mat-card-title>
-          Strategy Comparison
+          <span i18n="@@strategyComparison">Strategy Comparison</span>
           <mat-chip-set class="recommendation-chip">
             <mat-chip color="primary" highlighted>{{ result.strategyComparison.recommendation }}</mat-chip>
           </mat-chip-set>
@@ -199,27 +199,27 @@
       <mat-card-content>
         <div class="strategy-grid">
           <div class="strategy-col">
-            <h4>Amortize Faster</h4>
+            <h4 i18n="@@amortizeFaster">Amortize Faster</h4>
             <div class="kpi-col">
-              <div class="kpi-sm"><span>Entry Payment</span><span>{{ result.strategyComparison.amortizeFaster.entryPayment | eur }}</span></div>
-              <div class="kpi-sm"><span>Mortgage Principal</span><span>{{ result.strategyComparison.amortizeFaster.mortgagePrincipal | eur }}</span></div>
-              <div class="kpi-sm"><span>Monthly Payment</span><span>{{ result.strategyComparison.amortizeFaster.monthlyPayment | eur }}</span></div>
-              <div class="kpi-sm"><span>Total Interest</span><span>{{ result.strategyComparison.amortizeFaster.totalInterest | eur }}</span></div>
-              <div class="kpi-sm"><span>Remaining Liquidity</span><span>{{ result.strategyComparison.amortizeFaster.remainingLiquidity | eur }}</span></div>
-              <div class="kpi-sm"><span>Debt Ratio</span><span>{{ result.strategyComparison.amortizeFaster.debtRatio | number: '1.1-1' }}%</span></div>
-              <div class="kpi-sm"><span>Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.amortizeFaster.totalFinancialCost | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@entryPayment">Entry Payment</span><span>{{ result.strategyComparison.amortizeFaster.entryPayment | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@mortgagePrincipal">Mortgage Principal</span><span>{{ result.strategyComparison.amortizeFaster.mortgagePrincipal | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@monthlyPayment">Monthly Payment</span><span>{{ result.strategyComparison.amortizeFaster.monthlyPayment | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@totalInterest">Total Interest</span><span>{{ result.strategyComparison.amortizeFaster.totalInterest | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@remainingLiquidity">Remaining Liquidity</span><span>{{ result.strategyComparison.amortizeFaster.remainingLiquidity | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@debtRatio">Debt Ratio</span><span>{{ result.strategyComparison.amortizeFaster.debtRatio | number: '1.1-1' }}%</span></div>
+              <div class="kpi-sm"><span i18n="@@totalFinancialCost">Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.amortizeFaster.totalFinancialCost | eur }}</span></div>
             </div>
           </div>
           <div class="strategy-col">
-            <h4>Maintain Capital</h4>
+            <h4 i18n="@@maintainCapital">Maintain Capital</h4>
             <div class="kpi-col">
-              <div class="kpi-sm"><span>Entry Payment</span><span>{{ result.strategyComparison.maintainCapital.entryPayment | eur }}</span></div>
-              <div class="kpi-sm"><span>Mortgage Principal</span><span>{{ result.strategyComparison.maintainCapital.mortgagePrincipal | eur }}</span></div>
-              <div class="kpi-sm"><span>Monthly Payment</span><span>{{ result.strategyComparison.maintainCapital.monthlyPayment | eur }}</span></div>
-              <div class="kpi-sm"><span>Total Interest</span><span>{{ result.strategyComparison.maintainCapital.totalInterest | eur }}</span></div>
-              <div class="kpi-sm"><span>Remaining Liquidity</span><span>{{ result.strategyComparison.maintainCapital.remainingLiquidity | eur }}</span></div>
-              <div class="kpi-sm"><span>Debt Ratio</span><span>{{ result.strategyComparison.maintainCapital.debtRatio | number: '1.1-1' }}%</span></div>
-              <div class="kpi-sm"><span>Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.maintainCapital.totalFinancialCost | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@entryPayment">Entry Payment</span><span>{{ result.strategyComparison.maintainCapital.entryPayment | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@mortgagePrincipal">Mortgage Principal</span><span>{{ result.strategyComparison.maintainCapital.mortgagePrincipal | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@monthlyPayment">Monthly Payment</span><span>{{ result.strategyComparison.maintainCapital.monthlyPayment | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@totalInterest">Total Interest</span><span>{{ result.strategyComparison.maintainCapital.totalInterest | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@remainingLiquidity">Remaining Liquidity</span><span>{{ result.strategyComparison.maintainCapital.remainingLiquidity | eur }}</span></div>
+              <div class="kpi-sm"><span i18n="@@debtRatio">Debt Ratio</span><span>{{ result.strategyComparison.maintainCapital.debtRatio | number: '1.1-1' }}%</span></div>
+              <div class="kpi-sm"><span i18n="@@totalFinancialCost">Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.maintainCapital.totalFinancialCost | eur }}</span></div>
             </div>
           </div>
         </div>
@@ -227,31 +227,31 @@
         <mat-divider></mat-divider>
 
         <div class="net-differences">
-          <h4>Net Differences (Maintain Capital - Amortize)</h4>
+          <h4 i18n="@@netDifferences">Net Differences (Maintain Capital - Amortize)</h4>
           <div class="kpi-row">
             <div class="kpi">
-              <span class="kpi-label">Conservative</span>
+              <span class="kpi-label" i18n="@@conservative">Conservative</span>
               <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceConservative > 0"
                     [class.negative]="result.strategyComparison.netDifferenceConservative < 0">
                 {{ result.strategyComparison.netDifferenceConservative | eur }}
               </span>
             </div>
             <div class="kpi">
-              <span class="kpi-label">Base</span>
+              <span class="kpi-label" i18n="@@base">Base</span>
               <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceBase > 0"
                     [class.negative]="result.strategyComparison.netDifferenceBase < 0">
                 {{ result.strategyComparison.netDifferenceBase | eur }}
               </span>
             </div>
             <div class="kpi">
-              <span class="kpi-label">Optimistic</span>
+              <span class="kpi-label" i18n="@@optimistic">Optimistic</span>
               <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceOptimistic > 0"
                     [class.negative]="result.strategyComparison.netDifferenceOptimistic < 0">
                 {{ result.strategyComparison.netDifferenceOptimistic | eur }}
               </span>
             </div>
             <div class="kpi">
-              <span class="kpi-label">Weighted</span>
+              <span class="kpi-label" i18n="@@weighted">Weighted</span>
               <span class="kpi-value highlight" [class.positive]="result.strategyComparison.weightedNetDifference > 0"
                     [class.negative]="result.strategyComparison.weightedNetDifference < 0">
                 {{ result.strategyComparison.weightedNetDifference | eur }}
@@ -262,7 +262,7 @@
 
         @if (result.strategyComparison.explanation) {
           <div class="explanation">
-            <h4>Explanation</h4>
+            <h4 i18n="@@explanation">Explanation</h4>
             <p>{{ result.strategyComparison.explanation }}</p>
           </div>
         }

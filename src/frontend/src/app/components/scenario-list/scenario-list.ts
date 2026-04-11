@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
@@ -28,11 +28,13 @@ export class ScenarioListComponent implements OnInit {
   scenarios: ScenarioListItem[] = [];
   displayedColumns = ['name', 'createdAt', 'updatedAt', 'hasResults', 'actions'];
   loading = true;
+  deleteTooltipText = $localize`:@@deleteTooltip:Delete`;
 
   constructor(
     private readonly scenarioService: ScenarioService,
     private readonly router: Router,
     private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -45,10 +47,12 @@ export class ScenarioListComponent implements OnInit {
       next: (data) => {
         this.scenarios = data;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
-        this.snackBar.open('Error loading scenarios', 'Close', { duration: 3000 });
+        this.snackBar.open($localize`:@@errorLoadingScenarios:Error loading scenarios`, $localize`:@@snackClose:Close`, { duration: 3000 });
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }
@@ -66,9 +70,13 @@ export class ScenarioListComponent implements OnInit {
     this.scenarioService.delete(id).subscribe({
       next: () => {
         this.scenarios = this.scenarios.filter((s) => s.id !== id);
-        this.snackBar.open('Scenario deleted', 'Close', { duration: 2000 });
+        this.snackBar.open($localize`:@@scenarioDeleted:Scenario deleted`, $localize`:@@snackClose:Close`, { duration: 2000 });
+        this.cdr.markForCheck();
       },
-      error: () => this.snackBar.open('Error deleting scenario', 'Close', { duration: 3000 }),
+      error: () => {
+        this.snackBar.open($localize`:@@errorDeletingScenario:Error deleting scenario`, $localize`:@@snackClose:Close`, { duration: 3000 });
+        this.cdr.markForCheck();
+      },
     });
   }
 }

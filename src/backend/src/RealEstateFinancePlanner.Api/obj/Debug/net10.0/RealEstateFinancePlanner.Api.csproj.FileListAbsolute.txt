@@ -21,9 +21,6 @@ C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.A
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\MongoDB.Driver.dll
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\SharpCompress.dll
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Snappier.dll
-C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\ZstdSharp.dll
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\RealEstateFinancePlanner.Application.dll
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\RealEstateFinancePlanner.Domain.dll
@@ -46,3 +43,5 @@ C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.A
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\obj\Debug\net10.0\RealEstateFinancePlanner.Api.pdb
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\obj\Debug\net10.0\RealEstateFinancePlanner.Api.genruntimeconfig.cache
 C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\obj\Debug\net10.0\ref\RealEstateFinancePlanner.Api.dll
+C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Microsoft.AspNetCore.OpenApi.dll
+C:\source\real-estate-finance-planner\src\backend\src\RealEstateFinancePlanner.Api\bin\Debug\net10.0\Scalar.AspNetCore.dll

@@ -18,13 +18,15 @@
 .scenario-name-input {
   font-size: 1.5rem;
   border: none;
-  border-bottom: 2px solid #ccc;
+  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
   outline: none;
   padding: 4px 0;
   flex: 0 1 400px;
+  background: transparent;
+  color: inherit;
 
   &:focus {
-    border-bottom-color: #1976d2;
+    border-bottom-color: #64b5f6;
   }
 }
 

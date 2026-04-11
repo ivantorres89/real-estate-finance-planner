@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstateFinancePlanner.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a25c974f4b52b7164560cdbdabac4f30eb0056bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3620984e4e587a836aba2c61f91f833c1ef4653e")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstateFinancePlanner.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstateFinancePlanner.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

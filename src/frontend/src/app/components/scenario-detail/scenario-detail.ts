@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -52,11 +53,32 @@ export class ScenarioDetailComponent implements OnInit {
   model: CreateScenarioRequest = defaultScenarioRequest();
   analysisResult: AnalysisResultResponse | null = null;
 
+  // i18n labels
+  scenarioNamePlaceholder = $localize`:@@scenarioNamePlaceholder:Scenario name`;
+  tabSaleLiquidityLabel = $localize`:@@tabSaleLiquidity:Sale & Liquidity`;
+  tabPurchaseLabel = $localize`:@@tabPurchase:Purchase`;
+  tabStrategyLabel = $localize`:@@tabStrategy:Strategy`;
+  tabResultsLabel = $localize`:@@tabResults:Results`;
+
+  get saveButtonText(): string {
+    return this.saving ? $localize`:@@saving:Saving...` : $localize`:@@save:Save`;
+  }
+
+  get analyzeButtonText(): string {
+    return this.analyzing ? $localize`:@@analyzing:Analyzing...` : $localize`:@@runAnalysis:Run Analysis`;
+  }
+
+  bankDefaultLabel(index: number): string {
+    return $localize`:@@bankPrefix:Bank` + ' ' + (index + 1);
+  }
+
   constructor(
     private readonly route: ActivatedRoute,
     private readonly router: Router,
+    private readonly location: Location,
     private readonly scenarioService: ScenarioService,
     private readonly snackBar: MatSnackBar,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -65,9 +87,12 @@ export class ScenarioDetailComponent implements OnInit {
       this.scenarioId = id;
       this.isNew = false;
       this.scenarioService.getById(id).subscribe({
-        next: (scenario) => this.loadFromResponse(scenario),
+        next: (scenario) => {
+          this.loadFromResponse(scenario);
+          this.cdr.markForCheck();
+        },
         error: () => {
-          this.snackBar.open('Scenario not found', 'Close', { duration: 3000 });
+          this.snackBar.open($localize`:@@scenarioNotFound:Scenario not found`, $localize`:@@snackClose:Close`, { duration: 3000 });
           this.router.navigate(['/']);
         },
       });
@@ -105,13 +130,15 @@ export class ScenarioDetailComponent implements OnInit {
         if (this.isNew) {
           this.scenarioId = response.id;
           this.isNew = false;
-          this.router.navigate(['/scenarios', response.id], { replaceUrl: true });
+          this.location.replaceState(`/scenarios/${response.id}`);
         }
-        this.snackBar.open('Scenario saved', 'Close', { duration: 2000 });
+        this.snackBar.open($localize`:@@scenarioSaved:Scenario saved`, $localize`:@@snackClose:Close`, { duration: 2000 });
+        this.cdr.markForCheck();
       },
       error: () => {
         this.saving = false;
-        this.snackBar.open('Error saving scenario', 'Close', { duration: 3000 });
+        this.snackBar.open($localize`:@@errorSavingScenario:Error saving scenario`, $localize`:@@snackClose:Close`, { duration: 3000 });
+        this.cdr.markForCheck();
       },
     });
   }
@@ -123,11 +150,13 @@ export class ScenarioDetailComponent implements OnInit {
       next: (result) => {
         this.analysisResult = result;
         this.analyzing = false;
-        this.snackBar.open('Analysis complete', 'Close', { duration: 2000 });
+        this.snackBar.open($localize`:@@analysisComplete:Analysis complete`, $localize`:@@snackClose:Close`, { duration: 2000 });
+        this.cdr.markForCheck();
       },
       error: () => {
         this.analyzing = false;
-        this.snackBar.open('Error running analysis', 'Close', { duration: 3000 });
+        this.snackBar.open($localize`:@@errorRunningAnalysis:Error running analysis`, $localize`:@@snackClose:Close`, { duration: 3000 });
+        this.cdr.markForCheck();
       },
     });
   }
