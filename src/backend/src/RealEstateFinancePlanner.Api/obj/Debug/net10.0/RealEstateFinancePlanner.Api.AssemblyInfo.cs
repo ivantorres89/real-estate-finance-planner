@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RealEstateFinancePlanner.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+44aa055e783ff81e9a33a6f77db820f978143028")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a25c974f4b52b7164560cdbdabac4f30eb0056bd")]
 [assembly: System.Reflection.AssemblyProductAttribute("RealEstateFinancePlanner.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RealEstateFinancePlanner.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

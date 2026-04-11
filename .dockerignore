@@ -1,0 +1,11 @@
+# Docker
+mongo-data/
+
+# Backend
+src/backend/**/bin/
+src/backend/**/obj/
+
+# Frontend
+src/frontend/node_modules/
+src/frontend/dist/
+src/frontend/.angular/

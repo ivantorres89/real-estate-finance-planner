@@ -1,0 +1,55 @@
+.bank-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 2fr;
+  gap: 16px;
+  padding-top: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.bonus-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.bonus-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.bonus-footer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.bonus-notes {
+  flex: 1;
+  min-width: 200px;
+}
+
+.no-bonuses {
+  text-align: center;
+  color: rgba(0, 0, 0, 0.54);
+  padding: 16px;
+}
+
+mat-form-field {
+  width: 100%;
+}
