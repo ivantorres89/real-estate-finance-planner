@@ -18,49 +18,49 @@ Luego abre **http://localhost:4200** en tu navegador.
 
 ## Paso 1: Lista de Escenarios (Pagina Principal)
 
-Al abrir la aplicacion por primera vez, veras la lista de escenarios. Si no hay ninguno, veras un estado vacio con un boton **+ New Scenario**.
+Al abrir la aplicacion por primera vez, veras la lista de escenarios. Si no hay ninguno, veras un estado vacio con un boton **+ Nuevo Escenario**.
 
 ![Lista de escenarios vacia](docs/screenshots/01-scenario-list-empty.png)
 
-Haz clic en **+ New Scenario** para empezar.
+Haz clic en **+ Nuevo Escenario** para empezar.
 
 ---
 
 ## Paso 2: Crear un Nuevo Escenario
 
-Se abrira el editor de escenarios. Empieza escribiendo un nombre descriptivo en el campo superior (ej: "My First Property Analysis").
+Se abrira el editor de escenarios. Empieza escribiendo un nombre descriptivo en el campo superior (ej: "Mi Primer Analisis Inmobiliario").
 
 ![Editor de nuevo escenario](docs/screenshots/02-new-scenario.png)
 
 El editor esta organizado en **pestanas**:
-- **Sale & Liquidity** - Datos de venta de tu propiedad actual
-- **Purchase** - Datos de compra de la nueva propiedad
+- **Venta y Liquidez** - Datos de venta de tu propiedad actual
+- **Compra** - Datos de compra de la nueva propiedad
 - **Pestanas de bancos** - Una pestana por oferta bancaria (se anaden dinamicamente)
-- **Strategy** - Parametros de estrategia de inversion
-- **Results** - Aparece tras ejecutar el analisis
+- **Estrategia** - Parametros de estrategia de inversion
+- **Resultados** - Aparece tras ejecutar el analisis
 
 ---
 
 ## Paso 3: Rellenar Datos de Venta y Liquidez
 
-En la pestana **Sale & Liquidity**, rellena dos secciones:
+En la pestana **Venta y Liquidez**, rellena dos secciones:
 
-### Current Property Sale (Venta de Propiedad Actual)
+### Venta de Propiedad Actual
 | Campo | Descripcion | Ejemplo |
 |-------|-------------|---------|
-| Sale Price | Precio esperado de venta de tu propiedad actual | 320.000 |
-| Sale-Related Costs | Gastos de agencia, reformas u otros costes de venta | 310.000 |
-| Outstanding Mortgage Debt | Hipoteca pendiente de la propiedad que vendes | 95.000 |
-| Current Cash Balance | Tus ahorros actuales / efectivo disponible | 45.000 |
-| Municipal Capital Gains Tax | Plusvalia municipal (estimacion de tu ayuntamiento) | 1.800 |
-| Extraordinary Costs | Cualquier otro coste puntual | 0 |
+| Precio de Venta | Precio esperado de venta de tu propiedad actual | 320.000 |
+| Costes Asociados a la Venta | Gastos de agencia, reformas u otros costes de venta | 310.000 |
+| Deuda Hipotecaria Pendiente | Hipoteca pendiente de la propiedad que vendes | 95.000 |
+| Saldo en Efectivo Actual | Tus ahorros actuales / efectivo disponible | 45.000 |
+| Plusvalia Municipal | Plusvalia municipal (estimacion de tu ayuntamiento) | 1.800 |
+| Costes Extraordinarios | Cualquier otro coste puntual | 0 |
 
-### Debt Capacity (Capacidad de Endeudamiento)
+### Capacidad de Endeudamiento
 | Campo | Descripcion | Ejemplo |
 |-------|-------------|---------|
-| Monthly Net Salary | Tu salario neto mensual | 3.200 |
-| Monthly Loan Payments | Cuotas mensuales de prestamos existentes (coche, personal) | 800 |
-| Max Debt Ratio (%) | Porcentaje maximo de ingresos destinado a deuda | 35 |
+| Salario Neto Mensual | Tu salario neto mensual | 3.200 |
+| Cuotas de Prestamos Mensuales | Cuotas mensuales de prestamos existentes (coche, personal) | 800 |
+| Ratio Max. Endeudamiento (%) | Porcentaje maximo de ingresos destinado a deuda | 35 |
 
 ![Datos de venta rellenados](docs/screenshots/03-sale-data-filled.png)
 
@@ -68,23 +68,23 @@ En la pestana **Sale & Liquidity**, rellena dos secciones:
 
 ## Paso 4: Rellenar Datos de Compra
 
-Haz clic en la pestana **Purchase**. Rellena los detalles de la propiedad que quieres comprar:
+Haz clic en la pestana **Compra**. Rellena los detalles de la propiedad que quieres comprar:
 
 | Campo | Descripcion | Ejemplo |
-|-------|-------------|---------|
-| Purchase Price | Precio acordado para la nueva propiedad | 280.000 |
-| Deed Price | Precio escriturado (base imponible para ITP) | 280.000 |
-| Financeable (%) | Porcentaje que financiara el banco (normalmente 80%) | 80 |
-| Buyer Age | Tu edad (afecta a los limites del plazo hipotecario) | 35 |
-| Notary Costs | Gastos de notaria estimados | 900 |
-| Administrative Costs | Gastos de registro y gestion | 400 |
-| Appraisal Costs | Coste de tasacion | 350 |
-| Agency Costs | Comision de agencia inmobiliaria (si aplica) | 0 |
-| Other Costs | Cualquier coste adicional de compra | 0 |
+|-------|-------------|--------|
+| Precio de Compra | Precio acordado para la nueva propiedad | 280.000 |
+| Precio de Escritura | Precio escriturado (base imponible para ITP) | 280.000 |
+| Financiable (%) | Porcentaje que financiara el banco (normalmente 80%) | 80 |
+| Edad del Comprador | Tu edad (afecta a los limites del plazo hipotecario) | 35 |
+| Costes de Notaria | Gastos de notaria estimados | 900 |
+| Costes Administrativos | Gastos de registro y gestion | 400 |
+| Costes de Tasacion | Coste de tasacion | 350 |
+| Costes de Agencia | Comision de agencia inmobiliaria (si aplica) | 0 |
+| Otros Costes | Cualquier coste adicional de compra | 0 |
 
 Casillas de verificacion:
-- **Apply Reduced ITP** - Marca si tienes derecho al 3% de ITP (familia numerosa / discapacidad). El estandar es 6%.
-- **Main Residence** - Marca si sera tu vivienda habitual.
+- **Aplicar ITP Reducido** - Marca si tienes derecho al 3% de ITP (familia numerosa / discapacidad). El estandar es 6%.
+- **Vivienda Habitual** - Marca si sera tu vivienda habitual.
 
 ![Datos de compra rellenados](docs/screenshots/04-purchase-data-filled.png)
 
@@ -92,35 +92,35 @@ Casillas de verificacion:
 
 ## Paso 5: Anadir Ofertas Bancarias
 
-Haz clic en el boton **+** (pestana con icono de suma) para anadir un banco. Aparecera una nueva pestana llamada "Bank 1".
+Haz clic en el boton **+** (pestana con icono de suma) para anadir un banco. Aparecera una nueva pestana llamada "Banco 1".
 
 Rellena los datos del banco:
 
 | Campo | Descripcion | Ejemplo |
-|-------|-------------|---------|
-| Bank Name | Nombre del banco | Banco Santander |
-| Base TIN (%) | Tipo de interes nominal base ofrecido | 2,90 |
-| Terms (years) | Plazos hipotecarios a evaluar (separados por comas) | 15, 20, 25, 30 |
+|-------|-------------|--------|
+| Nombre del Banco | Nombre del banco | Banco Santander |
+| TIN Base (%) | Tipo de interes nominal base ofrecido | 2,90 |
+| Plazos (anos) | Plazos hipotecarios a evaluar (separados por comas) | 15, 20, 25, 30 |
 
 ![Oferta bancaria](docs/screenshots/05-bank-offer-empty.png)
 
 ### Anadir Bonificaciones
 
-Los bancos suelen ofrecer reducciones de tipo de interes (bonificaciones) a cambio de contratar productos adicionales. Haz clic en el boton **+** junto a "Bonuses" para anadir una.
+Los bancos suelen ofrecer reducciones de tipo de interes (bonificaciones) a cambio de contratar productos adicionales. Haz clic en el boton **+** junto a "Bonificaciones" para anadir una.
 
 Para cada bonificacion, rellena:
 
 | Campo | Descripcion | Ejemplo |
-|-------|-------------|---------|
-| Bonus Name | Nombre descriptivo | Payroll Deposit (Nomina) |
-| Category | Tipo de producto | Other |
-| TIN Reduction (%) | Cuanto se reduce el TIN | 0,50 |
-| Monthly Cost | Coste mensual del producto | 0 |
-| Yearly Cost | Coste anual | 0 |
-| One-Time Cost | Coste de alta o puntual | 0 |
-| Duration (years) | Cuanto dura la bonificacion (vacio = todo el plazo) | - |
+|-------|-------------|--------|
+| Nombre de Bonificacion | Nombre descriptivo | Domiciliacion de Nomina |
+| Categoria | Tipo de producto | Otro |
+| Reduccion TIN (%) | Cuanto se reduce el TIN | 0,50 |
+| Coste Mensual | Coste mensual del producto | 0 |
+| Coste Anual | Coste anual | 0 |
+| Coste Unico | Coste de alta o puntual | 0 |
+| Duracion (anos) | Cuanto dura la bonificacion (vacio = todo el plazo) | - |
 
-Marca **Accepted** si planeas aceptar esta bonificacion. Marca **Mandatory** si el banco la exige obligatoriamente.
+Marca **Aceptado** si planeas aceptar esta bonificacion. Marca **Obligatorio** si el banco la exige obligatoriamente.
 
 ![Banco con bonificaciones](docs/screenshots/06-bank-with-bonuses.png)
 
@@ -136,18 +136,18 @@ Para eliminar un banco, haz clic en la **X** de su pestana.
 
 ## Paso 6: Configurar Parametros de Estrategia
 
-Haz clic en la pestana **Strategy** para configurar los parametros de comparacion de inversiones:
+Haz clic en la pestana **Estrategia** para configurar los parametros de comparacion de inversiones:
 
 | Campo | Descripcion | Ejemplo |
-|-------|-------------|---------|
-| Conservative Return (%) | Rentabilidad anual pesimista de la inversion | 3 |
-| Base Return (%) | Rentabilidad anual esperada de la inversion | 6 |
-| Optimistic Return (%) | Rentabilidad anual en el mejor caso | 9 |
-| Analysis Horizon (years) | Periodo de tiempo para la comparacion | 20 |
-| Minimum Liquidity Cushion | Reserva de efectivo que quieres mantener disponible | 15.000 |
-| Additional Capital to Preserve | Capital extra no disponible para inversion | 0 |
-| Risk Profile | Tu tolerancia al riesgo (Conservative / Balanced / Aggressive) | Balanced |
-| Use Net Returns | Si las tasas de retorno son despues de impuestos | Si |
+|-------|-------------|--------|
+| Rentabilidad Conservadora (%) | Rentabilidad anual pesimista de la inversion | 3 |
+| Rentabilidad Base (%) | Rentabilidad anual esperada de la inversion | 6 |
+| Rentabilidad Optimista (%) | Rentabilidad anual en el mejor caso | 9 |
+| Horizonte de Analisis (anos) | Periodo de tiempo para la comparacion | 20 |
+| Colchon Minimo de Liquidez | Reserva de efectivo que quieres mantener disponible | 15.000 |
+| Capital Adicional a Preservar | Capital extra no disponible para inversion | 0 |
+| Perfil de Riesgo | Tu tolerancia al riesgo (Conservador / Equilibrado / Agresivo) | Equilibrado |
+| Usar Rentabilidad Neta | Si las tasas de retorno son despues de impuestos | Si |
 
 ![Parametros de estrategia](docs/screenshots/08-strategy-params.png)
 
@@ -155,7 +155,7 @@ Haz clic en la pestana **Strategy** para configurar los parametros de comparacio
 
 ## Paso 7: Guardar el Escenario
 
-Haz clic en el boton **Save** en la esquina superior derecha. Aparecera un mensaje de confirmacion "Scenario saved". Tras guardar, el boton **Run Analysis** estara disponible.
+Haz clic en el boton **Guardar** en la esquina superior derecha. Aparecera un mensaje de confirmacion "Escenario guardado". Tras guardar, el boton **Ejecutar Analisis** estara disponible.
 
 ![Escenario guardado](docs/screenshots/09-scenario-saved.png)
 
@@ -165,14 +165,14 @@ Haz clic en el boton **Save** en la esquina superior derecha. Aparecera un mensa
 
 ## Paso 8: Ejecutar el Analisis
 
-Haz clic en **Run Analysis**. El sistema calculara:
+Haz clic en **Ejecutar Analisis**. El sistema calculara:
 - Liquidez por venta (efectivo neto tras vender tu propiedad actual)
 - Costes de compra (ITP, notaria, entrada, etc.)
 - Opciones hipotecarias para cada banco y cada plazo
 - Evaluacion coste/beneficio de bonificaciones
 - Comparacion de estrategias (amortizar mas rapido vs. mantener capital)
 
-Aparecera una pestana "Results" cuando el analisis termine.
+Aparecera una pestana "Resultados" cuando el analisis termine.
 
 ![Analisis en ejecucion](docs/screenshots/10-analysis-running.png)
 
@@ -180,25 +180,25 @@ Aparecera una pestana "Results" cuando el analisis termine.
 
 ## Paso 9: Interpretar los Resultados
 
-Haz clic en la pestana **Results** para ver el analisis completo. Los resultados se dividen en secciones:
+Haz clic en la pestana **Resultados** para ver el analisis completo. Los resultados se dividen en secciones:
 
-### Sale & Liquidity Summary (Resumen de Venta y Liquidez)
+### Venta y Liquidez
 Muestra el efectivo neto disponible tras vender tu propiedad actual y pagar todas las deudas.
 
-### Purchase Costs (Costes de Compra)
+### Costes de Compra
 Muestra ITP, hipoteca maxima, entrada, efectivo total necesario, liquidez restante y si la operacion es viable.
 
-### Bank Comparisons (Comparacion de Bancos)
+### Comparacion de Bancos
 Para cada banco veras:
 - **Insignia de recomendacion**: Recommended / NotWorthIt
-- **Desglose de TIN**: TIN base, TIN maximo con descuento, TIN real final
+- **Desglose de TIN**: TIN Base, TIN Max. con Descuento, TIN Real Final
 - **Tabla de opciones hipotecarias**: Para cada plazo (15, 20, 25, 30 anos) - cuota mensual, total pagado, intereses totales, ratio de deuda, efectivo libre
 - **Evaluaciones de bonificaciones**: Si cada bonificacion te ahorra o te cuesta dinero, con un indicador visual
 
-### Strategy Comparison (Comparacion de Estrategias)
+### Comparacion de Estrategias
 Compara dos enfoques:
-- **Amortize Faster (Amortizar Mas Rapido)**: Usar todo el efectivo disponible como entrada para minimizar la hipoteca
-- **Maintain Capital (Mantener Capital)**: Usar la financiacion estandar e invertir la diferencia
+- **Amortizar Mas Rapido**: Usar todo el efectivo disponible como entrada para minimizar la hipoteca
+- **Mantener Capital**: Usar la financiacion estandar e invertir la diferencia
 
 Muestra diferencias netas bajo escenarios conservador, base y optimista, con una recomendacion ponderada.
 
@@ -208,7 +208,7 @@ Muestra diferencias netas bajo escenarios conservador, base y optimista, con una
 
 ## Paso 10: Volver a la Lista de Escenarios
 
-Haz clic en la **flecha atras** (arriba a la izquierda) para volver a la lista de escenarios. Tu escenario aparecera con una marca verde en la columna "Analyzed".
+Haz clic en la **flecha atras** (arriba a la izquierda) para volver a la lista de escenarios. Tu escenario aparecera con una marca verde en la columna "Analizado".
 
 ![Lista de escenarios con datos](docs/screenshots/14-scenario-list-with-data.png)
 
