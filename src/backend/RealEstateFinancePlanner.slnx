@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/RealEstateFinancePlanner.Api/RealEstateFinancePlanner.Api.csproj" />
+    <Project Path="src/RealEstateFinancePlanner.Application/RealEstateFinancePlanner.Application.csproj" />
+    <Project Path="src/RealEstateFinancePlanner.Domain/RealEstateFinancePlanner.Domain.csproj" />
+    <Project Path="src/RealEstateFinancePlanner.Infrastructure/RealEstateFinancePlanner.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/RealEstateFinancePlanner.Tests.Integration/RealEstateFinancePlanner.Tests.Integration.csproj" />
+    <Project Path="tests/RealEstateFinancePlanner.Tests.Unit/RealEstateFinancePlanner.Tests.Unit.csproj" />
+  </Folder>
+</Solution>

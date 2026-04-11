@@ -1,0 +1,36 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+mat-card {
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.scenario-table {
+  width: 100%;
+}
+
+.clickable-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
+}
+
+.loading-text,
+.empty-text {
+  text-align: center;
+  padding: 32px 0;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.analyzed {
+  color: #4caf50;
+}
+
+mat-card-actions {
+  padding: 16px !important;
+}

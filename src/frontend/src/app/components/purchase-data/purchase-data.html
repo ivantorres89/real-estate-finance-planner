@@ -1,0 +1,70 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>New Property Purchase</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="fields-grid">
+      <mat-form-field>
+        <mat-label>Purchase Price</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.purchasePrice" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Deed Price</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.deedPrice" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Financeable (%)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.financeablePercentage" min="0" max="100" />
+        <span matTextSuffix>&nbsp;%</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Buyer Age</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.buyerAge" min="18" max="100" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Notary Costs</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.notaryCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Administrative Costs</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.administrativeCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Appraisal Costs</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.appraisalCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Agency Costs</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.agencyCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Other Costs</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.otherCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+    </div>
+
+    <div class="checkboxes">
+      <mat-checkbox [(ngModel)]="purchase.applyReducedItp">
+        Apply Reduced ITP (3% - large family / disability)
+      </mat-checkbox>
+      <mat-checkbox [(ngModel)]="purchase.isMainResidence">
+        Main Residence
+      </mat-checkbox>
+    </div>
+  </mat-card-content>
+</mat-card>

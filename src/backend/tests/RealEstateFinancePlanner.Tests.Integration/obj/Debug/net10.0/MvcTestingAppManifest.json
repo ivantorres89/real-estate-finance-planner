@@ -1,0 +1,5 @@
+{
+  "RealEstateFinancePlanner.Application, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\source\\real-estate-finance-planner\\src\\backend\\src\\RealEstateFinancePlanner.Application",
+  "RealEstateFinancePlanner.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\source\\real-estate-finance-planner\\src\\backend\\src\\RealEstateFinancePlanner.Domain",
+  "RealEstateFinancePlanner.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null": "C:\\source\\real-estate-finance-planner\\src\\backend\\src\\RealEstateFinancePlanner.Infrastructure"
+}

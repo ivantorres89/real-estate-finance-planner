@@ -1,0 +1,133 @@
+using RealEstateFinancePlanner.Application.Interfaces;
+using RealEstateFinancePlanner.Domain.Entities;
+using RealEstateFinancePlanner.Domain.Services;
+
+namespace RealEstateFinancePlanner.Application.Services;
+
+public class AnalysisService : IAnalysisService
+{
+    public SaleLiquidityResult CalculateSaleLiquidity(SaleData sale)
+        => SaleLiquidityCalculator.Calculate(sale);
+
+    public PurchaseCostResult CalculatePurchaseCosts(PurchaseData purchase, decimal realAvailableCash)
+        => PurchaseCostCalculator.Calculate(purchase, realAvailableCash);
+
+    public DebtCapacityResult CalculateDebtCapacity(DebtCapacityData debtData)
+        => DebtCapacityCalculator.Calculate(debtData);
+
+    public MortgageCalculationResult CalculateMortgage(
+        decimal principal,
+        decimal annualTinPercentage,
+        int termYears,
+        decimal monthlyNetSalary,
+        decimal monthlyOutstandingLoanPayments)
+        => MortgageCalculator.Calculate(principal, annualTinPercentage, termYears, monthlyNetSalary, monthlyOutstandingLoanPayments);
+
+    public BankOfferResult EvaluateBankOffer(
+        BankOffer bankOffer,
+        decimal mortgagePrincipal,
+        int referenceTermYears,
+        decimal monthlyNetSalary,
+        decimal monthlyOutstandingLoanPayments)
+        => BonusEvaluator.Evaluate(bankOffer, mortgagePrincipal, referenceTermYears, monthlyNetSalary, monthlyOutstandingLoanPayments);
+
+    public StrategyComparisonResult CompareStrategies(
+        decimal realAvailableCash,
+        decimal purchasePrice,
+        decimal maxMortgageAmount,
+        decimal totalPurchaseCostsExcludingEntry,
+        decimal mortgageTin,
+        int termYears,
+        decimal monthlyNetSalary,
+        decimal monthlyOutstandingLoanPayments,
+        decimal totalAcceptedBonusCost,
+        StrategyParameters parameters)
+        => StrategyRecommendationEngine.Compare(
+            realAvailableCash, purchasePrice, maxMortgageAmount,
+            totalPurchaseCostsExcludingEntry, mortgageTin, termYears,
+            monthlyNetSalary, monthlyOutstandingLoanPayments,
+            totalAcceptedBonusCost, parameters);
+
+    public AnalysisResult RunFullAnalysis(Scenario scenario)
+    {
+        ArgumentNullException.ThrowIfNull(scenario);
+
+        // 1. Sale liquidity
+        var saleLiquidity = CalculateSaleLiquidity(scenario.Sale);
+
+        // 2. Purchase costs
+        var purchaseCosts = CalculatePurchaseCosts(scenario.Purchase, saleLiquidity.RealAvailableCash);
+
+        // 3. Debt capacity
+        var debtCapacity = CalculateDebtCapacity(scenario.DebtCapacity);
+
+        // 4. Evaluate each bank offer
+        var bankResults = new List<BankOfferResult>();
+        int defaultTermYears = 25;
+
+        foreach (var bank in scenario.Banks)
+        {
+            int referenceTermYears = bank.MortgageTermsYears.Count > 0
+                ? bank.MortgageTermsYears[bank.MortgageTermsYears.Count / 2]
+                : defaultTermYears;
+
+            var bankResult = EvaluateBankOffer(
+                bank,
+                purchaseCosts.MaxMortgageAmount,
+                referenceTermYears,
+                scenario.DebtCapacity.MonthlyNetSalary,
+                scenario.DebtCapacity.MonthlyOutstandingLoanPayments);
+
+            bankResults.Add(bankResult);
+        }
+
+        // 5. Assign bank recommendations
+        if (bankResults.Count > 0)
+        {
+            int commonTerm = bankResults
+                .SelectMany(b => b.MortgagesByTerm.Select(m => m.TermYears))
+                .GroupBy(t => t)
+                .OrderByDescending(g => g.Count())
+                .First().Key;
+
+            BonusEvaluator.AssignRecommendations(
+                bankResults,
+                scenario.DebtCapacity.MaxDebtRatioPercentage,
+                commonTerm);
+        }
+
+        // 6. Strategy comparison (use best bank's final TIN)
+        StrategyComparisonResult? strategyComparison = null;
+        if (bankResults.Count > 0)
+        {
+            var bestBank = bankResults.OrderBy(b => b.RealGlobalCost).First();
+            int strategyTerm = bestBank.MortgagesByTerm.Count > 0
+                ? bestBank.MortgagesByTerm[bestBank.MortgagesByTerm.Count / 2].TermYears
+                : defaultTermYears;
+
+            decimal totalCostsExcludingEntry = purchaseCosts.TotalCashNeeded - purchaseCosts.EntryPayment;
+
+            strategyComparison = CompareStrategies(
+                saleLiquidity.RealAvailableCash,
+                scenario.Purchase.PurchasePrice,
+                purchaseCosts.MaxMortgageAmount,
+                totalCostsExcludingEntry,
+                bestBank.FinalRealTin,
+                strategyTerm,
+                scenario.DebtCapacity.MonthlyNetSalary,
+                scenario.DebtCapacity.MonthlyOutstandingLoanPayments,
+                bestBank.TotalAcceptedBonusCost,
+                scenario.StrategyParameters);
+        }
+
+        return new AnalysisResult
+        {
+            SaleLiquidity = saleLiquidity,
+            PurchaseCosts = purchaseCosts,
+            DebtCapacity = debtCapacity,
+            BankResults = bankResults,
+            StrategyComparison = strategyComparison,
+            CalculatedAt = DateTime.UtcNow,
+        };
+    }
+}

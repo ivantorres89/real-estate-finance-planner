@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  padding: 24px;
+}
+
+.detail-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.scenario-name-input {
+  font-size: 1.5rem;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  padding: 4px 0;
+  flex: 0 1 400px;
+
+  &:focus {
+    border-bottom-color: #1976d2;
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.analyze-btn {
+  margin-left: 8px;
+}
+
+.tab-content {
+  padding: 24px 0;
+}
+
+.tab-close {
+  margin-left: 4px;
+  transform: scale(0.7);
+}
+
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 64px;
+}

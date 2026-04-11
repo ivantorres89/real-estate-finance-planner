@@ -1,0 +1,100 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Bank Offer</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="bank-header">
+      <mat-form-field class="bank-name">
+        <mat-label>Bank Name</mat-label>
+        <input matInput [(ngModel)]="bank.bankName" />
+      </mat-form-field>
+
+      <mat-form-field class="base-tin">
+        <mat-label>Base TIN (%)</mat-label>
+        <input matInput type="number" [(ngModel)]="bank.baseTinPercentage" min="0" max="20" step="0.01" />
+        <span matTextSuffix>&nbsp;%</span>
+      </mat-form-field>
+
+      <mat-form-field class="terms">
+        <mat-label>Terms (years, comma-separated)</mat-label>
+        <input matInput [value]="termsDisplay" (change)="updateTerms($any($event.target).value)" />
+      </mat-form-field>
+    </div>
+
+    <mat-divider></mat-divider>
+
+    <h3 class="section-title">
+      Bonuses
+      <button mat-icon-button color="primary" (click)="addBonus()">
+        <mat-icon>add_circle</mat-icon>
+      </button>
+    </h3>
+
+    @for (bonus of bank.bonuses; track trackByIndex($index)) {
+      <div class="bonus-card">
+        <div class="bonus-row">
+          <mat-form-field class="bonus-name">
+            <mat-label>Bonus Name</mat-label>
+            <input matInput [(ngModel)]="bonus.name" />
+          </mat-form-field>
+
+          <mat-form-field class="bonus-category">
+            <mat-label>Category</mat-label>
+            <mat-select [(ngModel)]="bonus.category">
+              @for (cat of bonusCategories; track cat) {
+                <mat-option [value]="cat">{{ cat }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="bonus-reduction">
+            <mat-label>TIN Reduction (%)</mat-label>
+            <input matInput type="number" [(ngModel)]="bonus.tinReductionPercentage" min="0" max="10" step="0.01" />
+            <span matTextSuffix>&nbsp;%</span>
+          </mat-form-field>
+        </div>
+
+        <div class="bonus-row">
+          <mat-form-field>
+            <mat-label>Monthly Cost</mat-label>
+            <input matInput type="number" [(ngModel)]="bonus.monthlyCost" min="0" />
+            <span matTextPrefix>EUR&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Yearly Cost</mat-label>
+            <input matInput type="number" [(ngModel)]="bonus.yearlyCost" min="0" />
+            <span matTextPrefix>EUR&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>One-Time Cost</mat-label>
+            <input matInput type="number" [(ngModel)]="bonus.oneTimeCost" min="0" />
+            <span matTextPrefix>EUR&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Duration (years)</mat-label>
+            <input matInput type="number" [(ngModel)]="bonus.durationYears" min="0" />
+          </mat-form-field>
+        </div>
+
+        <div class="bonus-footer">
+          <mat-checkbox [(ngModel)]="bonus.isMandatory">Mandatory</mat-checkbox>
+          <mat-checkbox [(ngModel)]="bonus.isAccepted">Accepted</mat-checkbox>
+          <mat-form-field class="bonus-notes">
+            <mat-label>Notes</mat-label>
+            <input matInput [(ngModel)]="bonus.notes" />
+          </mat-form-field>
+          <button mat-icon-button color="warn" (click)="removeBonus($index)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </div>
+      </div>
+    }
+
+    @if (bank.bonuses.length === 0) {
+      <p class="no-bonuses">No bonuses added yet. Click + to add one.</p>
+    }
+  </mat-card-content>
+</mat-card>

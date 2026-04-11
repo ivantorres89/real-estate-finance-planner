@@ -1,0 +1,73 @@
+<div class="form-grid">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Current Property Sale</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="fields">
+        <mat-form-field>
+          <mat-label>Sale Price</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.salePrice" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Sale-Related Costs</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.saleRelatedCosts" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Outstanding Mortgage Debt</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.outstandingMortgageDebt" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Current Cash Balance</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.currentCashBalance" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Municipal Capital Gains Tax</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.municipalCapitalGainsTax" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Extraordinary Costs</mat-label>
+          <input matInput type="number" [(ngModel)]="sale.extraordinaryCosts" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Debt Capacity</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="fields">
+        <mat-form-field>
+          <mat-label>Monthly Net Salary</mat-label>
+          <input matInput type="number" [(ngModel)]="debtCapacity.monthlyNetSalary" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Monthly Loan Payments</mat-label>
+          <input matInput type="number" [(ngModel)]="debtCapacity.monthlyOutstandingLoanPayments" min="0" />
+          <span matTextPrefix>EUR&nbsp;</span>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Max Debt Ratio (%)</mat-label>
+          <input matInput type="number" [(ngModel)]="debtCapacity.maxDebtRatioPercentage" min="1" max="100" />
+          <span matTextSuffix>&nbsp;%</span>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
