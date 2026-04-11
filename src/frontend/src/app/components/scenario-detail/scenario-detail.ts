@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ScenarioService } from '../../services/scenario.service';
+import { switchMap, tap } from 'rxjs';
 import {
   CreateScenarioRequest,
   ScenarioResponse,
@@ -146,7 +147,11 @@ export class ScenarioDetailComponent implements OnInit {
   runAnalysis(): void {
     if (!this.scenarioId) return;
     this.analyzing = true;
-    this.scenarioService.runAnalysis(this.scenarioId).subscribe({
+
+    // Auto-save current model before analyzing so the backend uses the latest data
+    this.scenarioService.update(this.scenarioId!, this.model).pipe(
+      switchMap(() => this.scenarioService.runAnalysis(this.scenarioId!)),
+    ).subscribe({
       next: (result) => {
         this.analysisResult = result;
         this.analyzing = false;
