@@ -42,6 +42,11 @@ public static class PurchaseCostCalculator
             ItpAmount = itpAmount,
             MaxMortgageAmount = maxMortgageAmount,
             EntryPayment = entryPayment,
+            NotaryCosts = purchase.NotaryCosts,
+            AdministrativeCosts = purchase.AdministrativeCosts,
+            AppraisalCosts = purchase.AppraisalCosts,
+            AgencyCosts = purchase.AgencyCosts,
+            OtherCosts = purchase.OtherCosts,
             TotalCashNeeded = totalCashNeeded,
             RemainingLiquidity = remainingLiquidity,
             IsViable = remainingLiquidity >= 0

@@ -84,11 +84,21 @@ public class AnalysisService : IAnalysisService
         // 5. Assign bank recommendations
         if (bankResults.Count > 0)
         {
-            int commonTerm = bankResults
+            // When multiple terms tie in frequency (e.g., a single bank offering many terms),
+            // pick the median of the tied terms rather than the first-encountered shortest one.
+            var termCounts = bankResults
                 .SelectMany(b => b.MortgagesByTerm.Select(m => m.TermYears))
                 .GroupBy(t => t)
-                .OrderByDescending(g => g.Count())
-                .First().Key;
+                .Select(g => (Term: g.Key, Count: g.Count()))
+                .OrderByDescending(x => x.Count)
+                .ToList();
+            int maxCount = termCounts[0].Count;
+            var tiedTerms = termCounts
+                .Where(x => x.Count == maxCount)
+                .Select(x => x.Term)
+                .OrderBy(t => t)
+                .ToList();
+            int commonTerm = tiedTerms[tiedTerms.Count / 2];
 
             BonusEvaluator.AssignRecommendations(
                 bankResults,

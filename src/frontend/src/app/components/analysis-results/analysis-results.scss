@@ -122,6 +122,56 @@ mat-divider {
   margin: 16px 0;
 }
 
+.viable-answer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+
+.breakdown-list {
+  padding: 8px 0;
+
+  mat-divider {
+    margin: 8px 0;
+  }
+}
+
+.breakdown-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+}
+
+.breakdown-label {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.breakdown-row.deduction .breakdown-label,
+.breakdown-row.addition .breakdown-label {
+  padding-left: 12px;
+}
+
+.breakdown-value {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.breakdown-row.subtotal {
+  .breakdown-label {
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .breakdown-value {
+    font-weight: 600;
+    font-size: 1.1rem;
+  }
+}
+
 h4 {
   margin-top: 16px;
 }

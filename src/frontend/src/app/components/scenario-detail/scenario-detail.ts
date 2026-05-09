@@ -1,8 +1,9 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -21,7 +22,6 @@ import { defaultScenarioRequest, defaultBankOffer } from '../../shared/defaults'
 import { SaleDataComponent } from '../sale-data/sale-data';
 import { PurchaseDataComponent } from '../purchase-data/purchase-data';
 import { BankOfferComponent } from '../bank-offer/bank-offer';
-import { StrategyComparisonComponent } from '../strategy-comparison/strategy-comparison';
 import { AnalysisResultsComponent } from '../analysis-results/analysis-results';
 
 @Component({
@@ -38,13 +38,12 @@ import { AnalysisResultsComponent } from '../analysis-results/analysis-results';
     SaleDataComponent,
     PurchaseDataComponent,
     BankOfferComponent,
-    StrategyComparisonComponent,
     AnalysisResultsComponent,
   ],
   templateUrl: './scenario-detail.html',
   styleUrl: './scenario-detail.scss',
 })
-export class ScenarioDetailComponent implements OnInit {
+export class ScenarioDetailComponent implements OnInit, OnDestroy {
   scenarioId: string | null = null;
   isNew = true;
   loading = true;
@@ -54,11 +53,12 @@ export class ScenarioDetailComponent implements OnInit {
   model: CreateScenarioRequest = defaultScenarioRequest();
   analysisResult: AnalysisResultResponse | null = null;
 
+  private readonly defaultTitle = 'REFP';
+
   // i18n labels
   scenarioNamePlaceholder = $localize`:@@scenarioNamePlaceholder:Scenario name`;
   tabSaleLiquidityLabel = $localize`:@@tabSaleLiquidity:Sale & Liquidity`;
   tabPurchaseLabel = $localize`:@@tabPurchase:Purchase`;
-  tabStrategyLabel = $localize`:@@tabStrategy:Strategy`;
   tabResultsLabel = $localize`:@@tabResults:Results`;
 
   get saveButtonText(): string {
@@ -80,6 +80,7 @@ export class ScenarioDetailComponent implements OnInit {
     private readonly scenarioService: ScenarioService,
     private readonly snackBar: MatSnackBar,
     private readonly cdr: ChangeDetectorRef,
+    private readonly titleService: Title,
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +91,7 @@ export class ScenarioDetailComponent implements OnInit {
       this.scenarioService.getById(id).subscribe({
         next: (scenario) => {
           this.loadFromResponse(scenario);
+          this.updateBrowserTitle();
           this.cdr.markForCheck();
         },
         error: () => {
@@ -119,6 +121,15 @@ export class ScenarioDetailComponent implements OnInit {
     this.loading = false;
   }
 
+  ngOnDestroy(): void {
+    this.titleService.setTitle(this.defaultTitle);
+  }
+
+  updateBrowserTitle(): void {
+    const name = this.model.name?.trim();
+    this.titleService.setTitle(name ? `REFP | ${name}` : this.defaultTitle);
+  }
+
   save(): void {
     this.saving = true;
     const obs = this.isNew
@@ -134,6 +145,7 @@ export class ScenarioDetailComponent implements OnInit {
           this.location.replaceState(`/scenarios/${response.id}`);
         }
         this.snackBar.open($localize`:@@scenarioSaved:Scenario saved`, $localize`:@@snackClose:Close`, { duration: 2000 });
+        this.updateBrowserTitle();
         this.cdr.markForCheck();
       },
       error: () => {

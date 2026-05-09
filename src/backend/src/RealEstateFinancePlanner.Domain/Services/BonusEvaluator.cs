@@ -94,7 +94,16 @@ public static class BonusEvaluator
 
         foreach (var result in bankResults)
         {
-            // Check debt ratio for reference term
+            // If no term at this bank produces an acceptable debt ratio, it is simply unaffordable.
+            bool hasAnyViableTerm = result.MortgagesByTerm
+                .Any(m => m.ResultingDebtRatio <= maxDebtRatioPercentage);
+
+            if (!hasAnyViableTerm)
+            {
+                result.Recommendation = BankRecommendationLevel.NotWorthIt;
+                continue;
+            }
+
             var referenceMortgage = result.MortgagesByTerm
                 .FirstOrDefault(m => m.TermYears == referenceTermYears);
 
@@ -104,9 +113,10 @@ public static class BonusEvaluator
             bool debtRatioApproaching = referenceMortgage != null
                 && referenceMortgage.ResultingDebtRatio > maxDebtRatioPercentage - 5m;
 
+            // Reference term exceeds the ratio but longer viable terms exist → Questionable, not rejected.
             if (debtRatioExceeded)
             {
-                result.Recommendation = BankRecommendationLevel.NotWorthIt;
+                result.Recommendation = BankRecommendationLevel.Questionable;
             }
             else if (result.RealGlobalCost <= bestCost * 1.02m && !debtRatioApproaching)
             {

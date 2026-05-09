@@ -5,14 +5,59 @@
       <mat-card-title i18n="@@resultSaleLiquidity">Sale & Liquidity</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="kpi-row">
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
-          <span class="kpi-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
+      <h4 i18n="@@saleBreakdown">Sale Breakdown</h4>
+      <div class="breakdown-list">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@salePriceResult">Sale Price</span>
+          <span class="breakdown-value">{{ result.saleLiquidity.salePrice | eur }}</span>
         </div>
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@realAvailableCash">Real Available Cash</span>
-          <span class="kpi-value highlight">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
+        @if (result.saleLiquidity.saleRelatedCosts > 0) {
+          <div class="breakdown-row deduction">
+            <span class="breakdown-label" i18n="@@lessSaleRelatedCosts">Sale Related Costs</span>
+            <span class="breakdown-value negative">- {{ result.saleLiquidity.saleRelatedCosts | eur }}</span>
+          </div>
+        }
+        @if (result.saleLiquidity.outstandingMortgageDebt > 0) {
+          <div class="breakdown-row deduction">
+            <span class="breakdown-label" i18n="@@lessOutstandingMortgage">Outstanding Mortgage</span>
+            <span class="breakdown-value negative">- {{ result.saleLiquidity.outstandingMortgageDebt | eur }}</span>
+          </div>
+        }
+        @if (result.saleLiquidity.municipalCapitalGainsTax > 0) {
+          <div class="breakdown-row deduction">
+            <span class="breakdown-label" i18n="@@lessCapitalGainsTax">Capital Gains Tax</span>
+            <span class="breakdown-value negative">- {{ result.saleLiquidity.municipalCapitalGainsTax | eur }}</span>
+          </div>
+        }
+        @if (result.saleLiquidity.extraordinaryCosts > 0) {
+          <div class="breakdown-row deduction">
+            <span class="breakdown-label" i18n="@@lessExtraordinaryCosts">Extraordinary Costs</span>
+            <span class="breakdown-value negative">- {{ result.saleLiquidity.extraordinaryCosts | eur }}</span>
+          </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
+          <span class="breakdown-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
+        </div>
+      </div>
+
+      <h4 i18n="@@cashBreakdown">Available Cash</h4>
+      <div class="breakdown-list">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
+          <span class="breakdown-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
+        </div>
+        @if (result.saleLiquidity.currentCashBalance > 0) {
+          <div class="breakdown-row addition">
+            <span class="breakdown-label" i18n="@@plusCurrentCash">Current Cash Balance</span>
+            <span class="breakdown-value positive">+ {{ result.saleLiquidity.currentCashBalance | eur }}</span>
+          </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@realAvailableCash">Real Available Cash</span>
+          <span class="breakdown-value highlight">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
         </div>
       </div>
     </mat-card-content>
@@ -26,10 +71,6 @@
     <mat-card-content>
       <div class="kpi-row">
         <div class="kpi">
-          <span class="kpi-label" i18n="@@itp">ITP</span>
-          <span class="kpi-value">{{ result.purchaseCosts.itpAmount | eur }}</span>
-        </div>
-        <div class="kpi">
           <span class="kpi-label" i18n="@@maxMortgage">Max Mortgage</span>
           <span class="kpi-value">{{ result.purchaseCosts.maxMortgageAmount | eur }}</span>
         </div>
@@ -37,22 +78,80 @@
           <span class="kpi-label" i18n="@@entryPayment">Entry Payment</span>
           <span class="kpi-value">{{ result.purchaseCosts.entryPayment | eur }}</span>
         </div>
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
-          <span class="kpi-value">{{ result.purchaseCosts.totalCashNeeded | eur }}</span>
+      </div>
+
+      <h4 i18n="@@purchaseBreakdown">Cost Breakdown</h4>
+      <div class="breakdown-list">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@entryPayment">Entry Payment</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.entryPayment | eur }}</span>
         </div>
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@remainingLiquidity">Remaining Liquidity</span>
-          <span class="kpi-value" [class.negative]="result.purchaseCosts.remainingLiquidity < 0">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@itp">ITP</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.itpAmount | eur }}</span>
+        </div>
+        @if (result.purchaseCosts.notaryCosts > 0) {
+          <div class="breakdown-row">
+            <span class="breakdown-label" i18n="@@lessNotaryCosts">Notary Costs</span>
+            <span class="breakdown-value">{{ result.purchaseCosts.notaryCosts | eur }}</span>
+          </div>
+        }
+        @if (result.purchaseCosts.administrativeCosts > 0) {
+          <div class="breakdown-row">
+            <span class="breakdown-label" i18n="@@lessAdministrativeCosts">Administrative Costs</span>
+            <span class="breakdown-value">{{ result.purchaseCosts.administrativeCosts | eur }}</span>
+          </div>
+        }
+        @if (result.purchaseCosts.appraisalCosts > 0) {
+          <div class="breakdown-row">
+            <span class="breakdown-label" i18n="@@lessAppraisalCosts">Appraisal Costs</span>
+            <span class="breakdown-value">{{ result.purchaseCosts.appraisalCosts | eur }}</span>
+          </div>
+        }
+        @if (result.purchaseCosts.agencyCosts > 0) {
+          <div class="breakdown-row">
+            <span class="breakdown-label" i18n="@@lessAgencyCosts">Agency Costs</span>
+            <span class="breakdown-value">{{ result.purchaseCosts.agencyCosts | eur }}</span>
+          </div>
+        }
+        @if (result.purchaseCosts.otherCosts > 0) {
+          <div class="breakdown-row">
+            <span class="breakdown-label" i18n="@@lessOtherCosts">Other Costs</span>
+            <span class="breakdown-value">{{ result.purchaseCosts.otherCosts | eur }}</span>
+          </div>
+        }
+        <mat-divider></mat-divider>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.totalCashNeeded | eur }}</span>
+        </div>
+      </div>
+
+      <h4 i18n="@@liquidityBreakdown">Liquidity Balance</h4>
+      <div class="breakdown-list">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@realAvailableCash">Real Available Cash</span>
+          <span class="breakdown-value">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
+        </div>
+        <div class="breakdown-row deduction">
+          <span class="breakdown-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
+          <span class="breakdown-value negative">- {{ result.purchaseCosts.totalCashNeeded | eur }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@remainingLiquidity">Remaining Liquidity</span>
+          <span class="breakdown-value" [class.negative]="result.purchaseCosts.remainingLiquidity < 0"
+                [class.highlight]="result.purchaseCosts.remainingLiquidity >= 0">
             {{ result.purchaseCosts.remainingLiquidity | eur }}
           </span>
         </div>
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@viable">Viable?</span>
-          <mat-icon [class.viable]="result.purchaseCosts.isViable"
-                    [class.not-viable]="!result.purchaseCosts.isViable">
-            {{ result.purchaseCosts.isViable ? 'check_circle' : 'cancel' }}
-          </mat-icon>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@viable">Viable?</span>
+          <span class="viable-answer" [class.viable]="result.purchaseCosts.isViable"
+                [class.not-viable]="!result.purchaseCosts.isViable">
+            <mat-icon>{{ result.purchaseCosts.isViable ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ result.purchaseCosts.isViable ? 'SÍ' : 'NO' }}
+          </span>
         </div>
       </div>
     </mat-card-content>
@@ -180,91 +279,6 @@
             <tr mat-header-row *matHeaderRowDef="bonusCols"></tr>
             <tr mat-row *matRowDef="let row; columns: bonusCols;"></tr>
           </table>
-        }
-      </mat-card-content>
-    </mat-card>
-  }
-
-  <!-- Strategy Comparison -->
-  @if (result.strategyComparison) {
-    <mat-card class="strategy-card">
-      <mat-card-header>
-        <mat-card-title>
-          <span i18n="@@strategyComparison">Strategy Comparison</span>
-          <mat-chip-set class="recommendation-chip">
-            <mat-chip color="primary" highlighted>{{ result.strategyComparison.recommendation }}</mat-chip>
-          </mat-chip-set>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="strategy-grid">
-          <div class="strategy-col">
-            <h4 i18n="@@amortizeFaster">Amortize Faster</h4>
-            <div class="kpi-col">
-              <div class="kpi-sm"><span i18n="@@entryPayment">Entry Payment</span><span>{{ result.strategyComparison.amortizeFaster.entryPayment | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@mortgagePrincipal">Mortgage Principal</span><span>{{ result.strategyComparison.amortizeFaster.mortgagePrincipal | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@monthlyPayment">Monthly Payment</span><span>{{ result.strategyComparison.amortizeFaster.monthlyPayment | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@totalInterest">Total Interest</span><span>{{ result.strategyComparison.amortizeFaster.totalInterest | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@remainingLiquidity">Remaining Liquidity</span><span>{{ result.strategyComparison.amortizeFaster.remainingLiquidity | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@debtRatio">Debt Ratio</span><span>{{ result.strategyComparison.amortizeFaster.debtRatio | number: '1.1-1' }}%</span></div>
-              <div class="kpi-sm"><span i18n="@@totalFinancialCost">Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.amortizeFaster.totalFinancialCost | eur }}</span></div>
-            </div>
-          </div>
-          <div class="strategy-col">
-            <h4 i18n="@@maintainCapital">Maintain Capital</h4>
-            <div class="kpi-col">
-              <div class="kpi-sm"><span i18n="@@entryPayment">Entry Payment</span><span>{{ result.strategyComparison.maintainCapital.entryPayment | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@mortgagePrincipal">Mortgage Principal</span><span>{{ result.strategyComparison.maintainCapital.mortgagePrincipal | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@monthlyPayment">Monthly Payment</span><span>{{ result.strategyComparison.maintainCapital.monthlyPayment | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@totalInterest">Total Interest</span><span>{{ result.strategyComparison.maintainCapital.totalInterest | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@remainingLiquidity">Remaining Liquidity</span><span>{{ result.strategyComparison.maintainCapital.remainingLiquidity | eur }}</span></div>
-              <div class="kpi-sm"><span i18n="@@debtRatio">Debt Ratio</span><span>{{ result.strategyComparison.maintainCapital.debtRatio | number: '1.1-1' }}%</span></div>
-              <div class="kpi-sm"><span i18n="@@totalFinancialCost">Total Financial Cost</span><span class="highlight">{{ result.strategyComparison.maintainCapital.totalFinancialCost | eur }}</span></div>
-            </div>
-          </div>
-        </div>
-
-        <mat-divider></mat-divider>
-
-        <div class="net-differences">
-          <h4 i18n="@@netDifferences">Net Differences (Maintain Capital - Amortize)</h4>
-          <div class="kpi-row">
-            <div class="kpi">
-              <span class="kpi-label" i18n="@@conservative">Conservative</span>
-              <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceConservative > 0"
-                    [class.negative]="result.strategyComparison.netDifferenceConservative < 0">
-                {{ result.strategyComparison.netDifferenceConservative | eur }}
-              </span>
-            </div>
-            <div class="kpi">
-              <span class="kpi-label" i18n="@@base">Base</span>
-              <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceBase > 0"
-                    [class.negative]="result.strategyComparison.netDifferenceBase < 0">
-                {{ result.strategyComparison.netDifferenceBase | eur }}
-              </span>
-            </div>
-            <div class="kpi">
-              <span class="kpi-label" i18n="@@optimistic">Optimistic</span>
-              <span class="kpi-value" [class.positive]="result.strategyComparison.netDifferenceOptimistic > 0"
-                    [class.negative]="result.strategyComparison.netDifferenceOptimistic < 0">
-                {{ result.strategyComparison.netDifferenceOptimistic | eur }}
-              </span>
-            </div>
-            <div class="kpi">
-              <span class="kpi-label" i18n="@@weighted">Weighted</span>
-              <span class="kpi-value highlight" [class.positive]="result.strategyComparison.weightedNetDifference > 0"
-                    [class.negative]="result.strategyComparison.weightedNetDifference < 0">
-                {{ result.strategyComparison.weightedNetDifference | eur }}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        @if (result.strategyComparison.explanation) {
-          <div class="explanation">
-            <h4 i18n="@@explanation">Explanation</h4>
-            <p>{{ result.strategyComparison.explanation }}</p>
-          </div>
         }
       </mat-card-content>
     </mat-card>

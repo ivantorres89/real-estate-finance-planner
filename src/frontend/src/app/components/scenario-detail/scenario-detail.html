@@ -10,6 +10,7 @@
       </button>
       <input class="scenario-name-input"
              [(ngModel)]="model.name"
+             (ngModelChange)="updateBrowserTitle()"
              [placeholder]="scenarioNamePlaceholder" />
       <span class="spacer"></span>
       <button mat-flat-button color="primary" (click)="save()" [disabled]="saving || !model.name">
@@ -67,14 +68,6 @@
             <mat-icon>add</mat-icon>
           </button>
         </ng-template>
-      </mat-tab>
-
-      <!-- Strategy Parameters -->
-      <mat-tab [label]="tabStrategyLabel">
-        <div class="tab-content">
-          <app-strategy-comparison [params]="model.strategyParameters">
-          </app-strategy-comparison>
-        </div>
       </mat-tab>
 
       <!-- Results -->

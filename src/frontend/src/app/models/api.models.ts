@@ -154,7 +154,13 @@ export interface AnalysisResultResponse {
 }
 
 export interface SaleLiquidityResultDto {
+  salePrice: number;
+  saleRelatedCosts: number;
+  outstandingMortgageDebt: number;
+  municipalCapitalGainsTax: number;
+  extraordinaryCosts: number;
   netSaleLiquidity: number;
+  currentCashBalance: number;
   realAvailableCash: number;
 }
 
@@ -162,6 +168,11 @@ export interface PurchaseCostResultDto {
   itpAmount: number;
   maxMortgageAmount: number;
   entryPayment: number;
+  notaryCosts: number;
+  administrativeCosts: number;
+  appraisalCosts: number;
+  agencyCosts: number;
+  otherCosts: number;
   totalCashNeeded: number;
   remainingLiquidity: number;
   isViable: boolean;

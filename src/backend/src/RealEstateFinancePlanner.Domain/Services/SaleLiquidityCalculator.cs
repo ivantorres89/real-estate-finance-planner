@@ -22,7 +22,13 @@ public static class SaleLiquidityCalculator
 
         return new SaleLiquidityResult
         {
+            SalePrice = sale.SalePrice,
+            SaleRelatedCosts = sale.SaleRelatedCosts,
+            OutstandingMortgageDebt = sale.OutstandingMortgageDebt,
+            MunicipalCapitalGainsTax = sale.MunicipalCapitalGainsTax,
+            ExtraordinaryCosts = sale.ExtraordinaryCosts,
             NetSaleLiquidity = netSaleLiquidity,
+            CurrentCashBalance = sale.CurrentCashBalance,
             RealAvailableCash = realAvailableCash
         };
     }

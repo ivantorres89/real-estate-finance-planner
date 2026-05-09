@@ -125,6 +125,33 @@ public class BonusEvaluatorTests
     }
 
     [Fact]
+    public void AssignRecommendations_BankWithViableLongerTerms_IsNotMarkedNotWorthIt()
+    {
+        // Reference term (20yr) produces debt ratio > 35%, but 25yr and 30yr are within limit.
+        // The bank must NOT be marked NotWorthIt.
+        var bank = BonusEvaluator.Evaluate(
+            new BankOffer { BankName = "BBVA", BaseTinPercentage = 2.30m, MortgageTermsYears = [20, 25, 30] },
+            279_000m, 23, 3_965m, 0m);
+
+        BonusEvaluator.AssignRecommendations([bank], 35m, 20);
+
+        bank.Recommendation.Should().NotBe(BankRecommendationLevel.NotWorthIt);
+    }
+
+    [Fact]
+    public void AssignRecommendations_BankWithNoViableTermAtAnyLength_IsNotWorthIt()
+    {
+        // All terms produce debt ratio > 35% → genuinely unaffordable.
+        var bank = BonusEvaluator.Evaluate(
+            new BankOffer { BankName = "Expensive Bank", BaseTinPercentage = 5.00m, MortgageTermsYears = [10, 15] },
+            450_000m, 10, 2_000m, 0m);
+
+        BonusEvaluator.AssignRecommendations([bank], 35m, 10);
+
+        bank.Recommendation.Should().Be(BankRecommendationLevel.NotWorthIt);
+    }
+
+    [Fact]
     public void Evaluate_MultipleBanks_AssignCorrectRecommendations()
     {
         var bank1 = BonusEvaluator.Evaluate(

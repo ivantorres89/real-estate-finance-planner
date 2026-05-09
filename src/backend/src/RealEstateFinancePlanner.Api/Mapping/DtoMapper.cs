@@ -105,7 +105,13 @@ public static class DtoMapper
     {
         SaleLiquidity = new SaleLiquidityResultDto
         {
+            SalePrice = e.SaleLiquidity.SalePrice,
+            SaleRelatedCosts = e.SaleLiquidity.SaleRelatedCosts,
+            OutstandingMortgageDebt = e.SaleLiquidity.OutstandingMortgageDebt,
+            MunicipalCapitalGainsTax = e.SaleLiquidity.MunicipalCapitalGainsTax,
+            ExtraordinaryCosts = e.SaleLiquidity.ExtraordinaryCosts,
             NetSaleLiquidity = e.SaleLiquidity.NetSaleLiquidity,
+            CurrentCashBalance = e.SaleLiquidity.CurrentCashBalance,
             RealAvailableCash = e.SaleLiquidity.RealAvailableCash,
         },
         PurchaseCosts = new PurchaseCostResultDto
@@ -113,6 +119,11 @@ public static class DtoMapper
             ItpAmount = e.PurchaseCosts.ItpAmount,
             MaxMortgageAmount = e.PurchaseCosts.MaxMortgageAmount,
             EntryPayment = e.PurchaseCosts.EntryPayment,
+            NotaryCosts = e.PurchaseCosts.NotaryCosts,
+            AdministrativeCosts = e.PurchaseCosts.AdministrativeCosts,
+            AppraisalCosts = e.PurchaseCosts.AppraisalCosts,
+            AgencyCosts = e.PurchaseCosts.AgencyCosts,
+            OtherCosts = e.PurchaseCosts.OtherCosts,
             TotalCashNeeded = e.PurchaseCosts.TotalCashNeeded,
             RemainingLiquidity = e.PurchaseCosts.RemainingLiquidity,
             IsViable = e.PurchaseCosts.IsViable,

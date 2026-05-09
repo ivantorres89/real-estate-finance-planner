@@ -95,15 +95,30 @@ export const translations: Record<string, string> = {
 
   // Analysis Results - Sale & Liquidity
   resultSaleLiquidity: 'Venta y Liquidez',
+  saleBreakdown: 'Desglose de Venta',
+  salePriceResult: 'Precio de Venta',
+  lessSaleRelatedCosts: 'Costes Asociados a la Venta',
+  lessOutstandingMortgage: 'Cancelacion Hipoteca Pendiente',
+  lessCapitalGainsTax: 'Plusvalia Municipal',
+  lessExtraordinaryCosts: 'Costes Extraordinarios',
   netSaleLiquidity: 'Liquidez Neta de Venta',
+  cashBreakdown: 'Efectivo Disponible',
+  plusCurrentCash: 'Ahorro / Efectivo Actual',
   realAvailableCash: 'Efectivo Real Disponible',
 
   // Analysis Results - Purchase Costs
   purchaseCosts: 'Costes de Compra',
+  purchaseBreakdown: 'Desglose de Costes',
+  lessNotaryCosts: 'Costes de Notaria',
+  lessAdministrativeCosts: 'Costes Administrativos',
+  lessAppraisalCosts: 'Costes de Tasacion',
+  lessAgencyCosts: 'Costes de Agencia',
+  lessOtherCosts: 'Otros Costes',
   itp: 'ITP',
   maxMortgage: 'Hipoteca Maxima',
   entryPayment: 'Entrada',
   totalCashNeeded: 'Efectivo Total Necesario',
+  liquidityBreakdown: 'Balance de Liquidez',
   remainingLiquidity: 'Liquidez Restante',
   viable: 'Viable?',
 
