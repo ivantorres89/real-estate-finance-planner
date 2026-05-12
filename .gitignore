@@ -82,3 +82,5 @@ pnpm-error.log*
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+prompts/
