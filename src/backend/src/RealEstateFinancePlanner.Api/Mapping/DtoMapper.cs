@@ -110,12 +110,16 @@ public static class DtoMapper
             OutstandingMortgageDebt = e.SaleLiquidity.OutstandingMortgageDebt,
             MunicipalCapitalGainsTax = e.SaleLiquidity.MunicipalCapitalGainsTax,
             ExtraordinaryCosts = e.SaleLiquidity.ExtraordinaryCosts,
+            TotalSaleDeductions = e.SaleLiquidity.TotalSaleDeductions,
             NetSaleLiquidity = e.SaleLiquidity.NetSaleLiquidity,
             CurrentCashBalance = e.SaleLiquidity.CurrentCashBalance,
             RealAvailableCash = e.SaleLiquidity.RealAvailableCash,
         },
         PurchaseCosts = new PurchaseCostResultDto
         {
+            PurchasePrice = e.PurchaseCosts.PurchasePrice,
+            DeedPrice = e.PurchaseCosts.DeedPrice,
+            FinanceablePercentage = e.PurchaseCosts.FinanceablePercentage,
             ItpAmount = e.PurchaseCosts.ItpAmount,
             MaxMortgageAmount = e.PurchaseCosts.MaxMortgageAmount,
             EntryPayment = e.PurchaseCosts.EntryPayment,

@@ -11,12 +11,13 @@ public static class SaleLiquidityCalculator
         if (sale.SalePrice < 0)
             throw new ArgumentException("Sale price cannot be negative.", nameof(sale));
 
-        decimal netSaleLiquidity =
-            sale.SalePrice
-            - sale.SaleRelatedCosts
-            - sale.OutstandingMortgageDebt
-            - sale.MunicipalCapitalGainsTax
-            - sale.ExtraordinaryCosts;
+        decimal totalSaleDeductions =
+            sale.SaleRelatedCosts
+            + sale.OutstandingMortgageDebt
+            + sale.MunicipalCapitalGainsTax
+            + sale.ExtraordinaryCosts;
+
+        decimal netSaleLiquidity = sale.SalePrice - totalSaleDeductions;
 
         decimal realAvailableCash = sale.CurrentCashBalance + netSaleLiquidity;
 
@@ -27,6 +28,7 @@ public static class SaleLiquidityCalculator
             OutstandingMortgageDebt = sale.OutstandingMortgageDebt,
             MunicipalCapitalGainsTax = sale.MunicipalCapitalGainsTax,
             ExtraordinaryCosts = sale.ExtraordinaryCosts,
+            TotalSaleDeductions = totalSaleDeductions,
             NetSaleLiquidity = netSaleLiquidity,
             CurrentCashBalance = sale.CurrentCashBalance,
             RealAvailableCash = realAvailableCash

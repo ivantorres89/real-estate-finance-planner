@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -15,6 +16,7 @@ import { ScenarioListItem } from '../../models';
   imports: [
     CommonModule,
     MatTableModule,
+    MatSortModule,
     MatButtonModule,
     MatIconModule,
     MatCardModule,
@@ -25,11 +27,17 @@ import { ScenarioListItem } from '../../models';
   styleUrl: './scenario-list.scss',
 })
 export class ScenarioListComponent implements OnInit {
-  scenarios: ScenarioListItem[] = [];
+  dataSource = new MatTableDataSource<ScenarioListItem>();
   displayedColumns = ['name', 'createdAt', 'updatedAt', 'hasResults', 'actions'];
   loading = true;
   deleteTooltipText = $localize`:@@deleteTooltip:Delete`;
   duplicateTooltipText = $localize`:@@duplicateTooltip:Duplicate`;
+
+  @ViewChild(MatSort) set matSort(sort: MatSort) {
+    if (sort) {
+      this.dataSource.sort = sort;
+    }
+  }
 
   constructor(
     private readonly scenarioService: ScenarioService,
@@ -46,7 +54,7 @@ export class ScenarioListComponent implements OnInit {
     this.loading = true;
     this.scenarioService.getAll().subscribe({
       next: (data) => {
-        this.scenarios = data;
+        this.dataSource.data = data;
         this.loading = false;
         this.cdr.markForCheck();
       },
@@ -70,7 +78,7 @@ export class ScenarioListComponent implements OnInit {
     event.stopPropagation();
     this.scenarioService.delete(id).subscribe({
       next: () => {
-        this.scenarios = this.scenarios.filter((s) => s.id !== id);
+        this.dataSource.data = this.dataSource.data.filter((s) => s.id !== id);
         this.snackBar.open($localize`:@@scenarioDeleted:Scenario deleted`, $localize`:@@snackClose:Close`, { duration: 2000 });
         this.cdr.markForCheck();
       },
@@ -85,7 +93,7 @@ export class ScenarioListComponent implements OnInit {
     event.stopPropagation();
     this.scenarioService.duplicate(id).subscribe({
       next: (created) => {
-        this.scenarios = [...this.scenarios, created];
+        this.dataSource.data = [...this.dataSource.data, created];
         this.snackBar.open($localize`:@@scenarioDuplicated:Scenario duplicated`, $localize`:@@snackClose:Close`, { duration: 2000 });
         this.cdr.markForCheck();
       },

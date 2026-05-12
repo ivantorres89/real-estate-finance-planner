@@ -39,6 +39,9 @@ public static class PurchaseCostCalculator
 
         return new PurchaseCostResult
         {
+            PurchasePrice = purchase.PurchasePrice,
+            DeedPrice = purchase.DeedPrice,
+            FinanceablePercentage = purchase.FinanceablePercentage,
             ItpAmount = itpAmount,
             MaxMortgageAmount = maxMortgageAmount,
             EntryPayment = entryPayment,

@@ -172,6 +172,24 @@ mat-divider {
   }
 }
 
+.breakdown-row.subtotal-minor {
+  .breakdown-label {
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.85rem;
+  }
+  .breakdown-value {
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+}
+
+.breakdown-label.muted,
+.breakdown-value.muted {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.85rem;
+}
+
 h4 {
   margin-top: 16px;
 }

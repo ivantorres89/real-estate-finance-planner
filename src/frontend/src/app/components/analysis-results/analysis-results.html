@@ -2,7 +2,7 @@
   <!-- Sale Liquidity -->
   <mat-card>
     <mat-card-header>
-      <mat-card-title i18n="@@resultSaleLiquidity">Sale & Liquidity</mat-card-title>
+      <mat-card-title i18n="@@resultSaleLiquidity">Sale &amp; Liquidity</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <h4 i18n="@@saleBreakdown">Sale Breakdown</h4>
@@ -33,6 +33,12 @@
           <div class="breakdown-row deduction">
             <span class="breakdown-label" i18n="@@lessExtraordinaryCosts">Extraordinary Costs</span>
             <span class="breakdown-value negative">- {{ result.saleLiquidity.extraordinaryCosts | eur }}</span>
+          </div>
+        }
+        @if (result.saleLiquidity.totalSaleDeductions > 0) {
+          <div class="breakdown-row subtotal-minor">
+            <span class="breakdown-label muted" i18n="@@totalSaleDeductions">Total Deductions</span>
+            <span class="breakdown-value muted negative">- {{ result.saleLiquidity.totalSaleDeductions | eur }}</span>
           </div>
         }
         <mat-divider></mat-divider>
@@ -69,18 +75,36 @@
       <mat-card-title i18n="@@purchaseCosts">Purchase Costs</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <div class="kpi-row">
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@maxMortgage">Max Mortgage</span>
-          <span class="kpi-value">{{ result.purchaseCosts.maxMortgageAmount | eur }}</span>
+      <h4 i18n="@@mortgageCalcBreakdown">Mortgage Calculation</h4>
+      <div class="breakdown-list">
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@purchasePriceResult">Purchase Price</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.purchasePrice | eur }}</span>
         </div>
-        <div class="kpi">
-          <span class="kpi-label" i18n="@@entryPayment">Entry Payment</span>
-          <span class="kpi-value">{{ result.purchaseCosts.entryPayment | eur }}</span>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@deedPriceResult">Deed Price</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.deedPrice | eur }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@financeablePercentageResult">Financeable %</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.financeablePercentage | number:'1.0-0' }}%</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@maxMortgage">Max Mortgage</span>
+          <span class="breakdown-value">
+            {{ result.purchaseCosts.deedPrice | eur }} × {{ result.purchaseCosts.financeablePercentage | number:'1.0-0' }}% = {{ result.purchaseCosts.maxMortgageAmount | eur }}
+          </span>
+        </div>
+        <div class="breakdown-row subtotal">
+          <span class="breakdown-label" i18n="@@entryPayment">Entry Payment</span>
+          <span class="breakdown-value">
+            {{ result.purchaseCosts.purchasePrice | eur }} − {{ result.purchaseCosts.maxMortgageAmount | eur }} = {{ result.purchaseCosts.entryPayment | eur }}
+          </span>
         </div>
       </div>
 
-      <h4 i18n="@@purchaseBreakdown">Cost Breakdown</h4>
+      <h4 i18n="@@purchaseBreakdown">Purchase Costs</h4>
       <div class="breakdown-list">
         <div class="breakdown-row">
           <span class="breakdown-label" i18n="@@entryPayment">Entry Payment</span>

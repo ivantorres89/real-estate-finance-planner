@@ -181,6 +181,7 @@ public class SaleLiquidityResultDto
     public decimal OutstandingMortgageDebt { get; set; }
     public decimal MunicipalCapitalGainsTax { get; set; }
     public decimal ExtraordinaryCosts { get; set; }
+    public decimal TotalSaleDeductions { get; set; }
     public decimal NetSaleLiquidity { get; set; }
     public decimal CurrentCashBalance { get; set; }
     public decimal RealAvailableCash { get; set; }
@@ -188,6 +189,9 @@ public class SaleLiquidityResultDto
 
 public class PurchaseCostResultDto
 {
+    public decimal PurchasePrice { get; set; }
+    public decimal DeedPrice { get; set; }
+    public decimal FinanceablePercentage { get; set; }
     public decimal ItpAmount { get; set; }
     public decimal MaxMortgageAmount { get; set; }
     public decimal EntryPayment { get; set; }

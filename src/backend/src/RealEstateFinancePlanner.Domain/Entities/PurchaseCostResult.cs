@@ -2,6 +2,9 @@ namespace RealEstateFinancePlanner.Domain.Entities;
 
 public class PurchaseCostResult
 {
+    public decimal PurchasePrice { get; set; }
+    public decimal DeedPrice { get; set; }
+    public decimal FinanceablePercentage { get; set; }
     public decimal ItpAmount { get; set; }
     public decimal MaxMortgageAmount { get; set; }
     public decimal EntryPayment { get; set; }

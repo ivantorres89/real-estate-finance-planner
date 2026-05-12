@@ -159,12 +159,16 @@ export interface SaleLiquidityResultDto {
   outstandingMortgageDebt: number;
   municipalCapitalGainsTax: number;
   extraordinaryCosts: number;
+  totalSaleDeductions: number;
   netSaleLiquidity: number;
   currentCashBalance: number;
   realAvailableCash: number;
 }
 
 export interface PurchaseCostResultDto {
+  purchasePrice: number;
+  deedPrice: number;
+  financeablePercentage: number;
   itpAmount: number;
   maxMortgageAmount: number;
   entryPayment: number;

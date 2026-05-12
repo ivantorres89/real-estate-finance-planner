@@ -101,6 +101,7 @@ export const translations: Record<string, string> = {
   lessOutstandingMortgage: 'Cancelacion Hipoteca Pendiente',
   lessCapitalGainsTax: 'Plusvalia Municipal',
   lessExtraordinaryCosts: 'Costes Extraordinarios',
+  totalSaleDeductions: 'Total Deducciones Venta',
   netSaleLiquidity: 'Liquidez Neta de Venta',
   cashBreakdown: 'Efectivo Disponible',
   plusCurrentCash: 'Ahorro / Efectivo Actual',
@@ -108,9 +109,13 @@ export const translations: Record<string, string> = {
 
   // Analysis Results - Purchase Costs
   purchaseCosts: 'Costes de Compra',
-  purchaseBreakdown: 'Desglose de Costes',
+  purchasePriceResult: 'Precio de Compra',
+  deedPriceResult: 'Precio de Escritura',
+  financeablePercentageResult: '% Hipotecable',
+  mortgageCalcBreakdown: 'Calculo Hipoteca',
+  purchaseBreakdown: 'Gastos de Compra',
   lessNotaryCosts: 'Costes de Notaria',
-  lessAdministrativeCosts: 'Costes Administrativos',
+  lessAdministrativeCosts: 'Costes Administrativos / Gestoria',
   lessAppraisalCosts: 'Costes de Tasacion',
   lessAgencyCosts: 'Costes de Agencia',
   lessOtherCosts: 'Otros Costes',
@@ -118,7 +123,7 @@ export const translations: Record<string, string> = {
   maxMortgage: 'Hipoteca Maxima',
   entryPayment: 'Entrada',
   totalCashNeeded: 'Efectivo Total Necesario',
-  liquidityBreakdown: 'Balance de Liquidez',
+  liquidityBreakdown: 'Balance Final de Liquidez',
   remainingLiquidity: 'Liquidez Restante',
   viable: 'Viable?',
 
