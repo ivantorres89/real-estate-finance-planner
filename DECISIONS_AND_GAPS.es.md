@@ -86,6 +86,57 @@ Se usa capitalizacion anual por simplicidad y claridad. La capitalizacion mensua
 | Scalar API docs en todos los entornos | Conveniencia para desarrollo y pruebas. |
 | TIN de bonificacion aplicado todo el plazo | Ligera sobreestimacion del beneficio para bonificaciones con duracion limitada. |
 
+## Doble contabilidad A/B (venta y compra)
+
+### Motivacion
+El modelo de venta y compra ha pasado de un unico precio a una particion explicita entre dos contabilidades:
+- **Contabilidad A:** lo que se firma en escritura (declarable, bancable, sujeto a ITP, visible para Hacienda y banco).
+- **Contabilidad B:** lo que se entrega en efectivo "B", no declarado. No puede ingresarse en cuenta sin justificacion fiscal, no cancela hipoteca pendiente, no computa para el `loan-to-value` de la hipoteca nueva.
+
+### Invariantes aplicadas
+| Concepto | Contabilidad |
+|---|---|
+| Cancelacion deuda hipotecaria del vendedor | A |
+| Gastos de venta (notaria, agencia, etc.) | A |
+| Plusvalia municipal | A (base imponible = A) |
+| Gastos extraordinarios | A |
+| Cash actual ahorrado en cuenta | A |
+| Liquidez B generada en la venta | solo B o reforma B |
+| ITP, notaria, gestoria, tasacion, agencia, otros gastos de compra | A |
+| Entrada hipotecaria de la compra | A |
+| Sobreprecio negro al vendedor de la compra | B |
+| Reformas | B |
+
+### Restriccion de viabilidad
+- **Venta viable:** `currentCashBalance + NetSaleLiquidityA >= 0`
+- **Compra viable:** `RealAvailableCashA >= TotalCashNeededA` Y `RealAvailableCashB >= TotalCashNeededB`
+- **Cuadre B optimo:** `IdleCashB` cercano a 0 (B sobrante minimizado, dado que no puede ingresarse limpio).
+
+### Hipoteca con tasacion
+`maxMortgage = financeablePercentage × min(officialPurchasePriceA, effectiveAppraisalValue)`. Si `AppraisalValue` es 0, se asume `tasacion = A` ("tasarla baja para que la operacion entre"). Si la tasacion queda por debajo de A, la hipoteca se topa por la tasacion y se emite aviso en `BalancingAdvice`.
+
+### Motor de cuadre (`BalancingAdvice`)
+El calculador emite recomendaciones automaticas en orden:
+1. A de venta no cubre deuda + gastos oficiales.
+2. A de compra no cubre entrada + ITP + gastos.
+3. B de compra no cubre sobreprecio + reformas.
+4. `IdleCashB > 5.000 EUR` (umbral fijo configurable como constante interna).
+5. Tasacion tope la hipoteca por debajo de A.
+6. Si nada falla: "Operacion cuadrada".
+
+### Estrategia patrimonial sobre A
+La comparacion patrimonial **amortizar mas vs mantener capital** opera unicamente sobre el lado A. El cash B no es capital reinvertible libre (no puede moverse a un broker sin justificacion fiscal), por lo que queda fuera de esa matematica. La matematica de hipoteca tambien opera sobre A, ya que el banco solo ve A.
+
+### Migracion legacy en lectura
+Los escenarios previos guardados con `SalePrice`, `PurchasePrice`, `DeedPrice` se migran on-read en el repositorio MongoDB:
+- `SalePrice` -> `OfficialSalePriceA`, `UnofficialSalePriceB = 0`
+- `PurchasePrice` -> `OfficialPurchasePriceA`, `UnofficialPurchasePriceB = 0`
+- `DeedPrice` -> `AppraisalValue`
+- `RenovationCostsB = 0`
+- `LastResult` se descarta (esquema cambio) y obliga a re-ejecutar el analisis.
+
+Se logra capturando campos antiguos con un `Dictionary<string, object>? LegacyExtraElements` mapeado como BSON `ExtraElements` mediante `BsonClassMap.MapExtraElementsProperty`. El Domain no referencia tipos MongoDB.
+
 ## Oportunidades de evolucion futura
 1. **Exportacion de cuadro de amortizacion:** Generar tabla mes a mes (PDF/CSV)
 2. **Soporte de tipo variable:** Modelado de Euribor + diferencial con escenarios de tipos

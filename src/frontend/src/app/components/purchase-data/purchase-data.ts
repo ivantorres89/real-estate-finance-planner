@@ -22,4 +22,15 @@ import { PurchaseDataDto } from '../../models';
 })
 export class PurchaseDataComponent {
   @Input() purchase!: PurchaseDataDto;
+
+  totalPurchasePrice(): number {
+    return (Number(this.purchase?.officialPurchasePriceA) || 0)
+      + (Number(this.purchase?.unofficialPurchasePriceB) || 0);
+  }
+
+  appraisalCapsMortgage(): boolean {
+    const a = Number(this.purchase?.officialPurchasePriceA) || 0;
+    const appraisal = Number(this.purchase?.appraisalValue) || 0;
+    return appraisal > 0 && appraisal < a;
+  }
 }

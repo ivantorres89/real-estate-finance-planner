@@ -5,65 +5,109 @@
       <mat-card-title i18n="@@resultSaleLiquidity">Sale &amp; Liquidity</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <h4 i18n="@@saleBreakdown">Sale Breakdown</h4>
-      <div class="breakdown-list">
-        <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@salePriceResult">Sale Price</span>
-          <span class="breakdown-value">{{ result.saleLiquidity.salePrice | eur }}</span>
+      <div class="accounting-columns">
+        <!-- Column A -->
+        <div class="accounting-col">
+          <h4 i18n="@@saleColumnA">Accounting A (official)</h4>
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@officialSalePriceA">Official Sale Price (A)</span>
+              <span class="breakdown-value">{{ result.saleLiquidity.officialSalePriceA | eur }}</span>
+            </div>
+            @if (result.saleLiquidity.saleRelatedCosts > 0) {
+              <div class="breakdown-row deduction">
+                <span class="breakdown-label" i18n="@@lessSaleRelatedCosts">Sale Related Costs</span>
+                <span class="breakdown-value negative">- {{ result.saleLiquidity.saleRelatedCosts | eur }}</span>
+              </div>
+            }
+            @if (result.saleLiquidity.outstandingMortgageDebt > 0) {
+              <div class="breakdown-row deduction">
+                <span class="breakdown-label" i18n="@@lessOutstandingMortgage">Outstanding Mortgage</span>
+                <span class="breakdown-value negative">- {{ result.saleLiquidity.outstandingMortgageDebt | eur }}</span>
+              </div>
+            }
+            @if (result.saleLiquidity.municipalCapitalGainsTax > 0) {
+              <div class="breakdown-row deduction">
+                <span class="breakdown-label" i18n="@@lessCapitalGainsTax">Capital Gains Tax</span>
+                <span class="breakdown-value negative">- {{ result.saleLiquidity.municipalCapitalGainsTax | eur }}</span>
+              </div>
+            }
+            @if (result.saleLiquidity.extraordinaryCosts > 0) {
+              <div class="breakdown-row deduction">
+                <span class="breakdown-label" i18n="@@lessExtraordinaryCosts">Extraordinary Costs</span>
+                <span class="breakdown-value negative">- {{ result.saleLiquidity.extraordinaryCosts | eur }}</span>
+              </div>
+            }
+            @if (result.saleLiquidity.totalSaleDeductionsA > 0) {
+              <div class="breakdown-row subtotal-minor">
+                <span class="breakdown-label muted" i18n="@@totalSaleDeductions">Total Deductions</span>
+                <span class="breakdown-value muted negative">- {{ result.saleLiquidity.totalSaleDeductionsA | eur }}</span>
+              </div>
+            }
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@netSaleLiquidityA">Net Sale Liquidity A</span>
+              <span class="breakdown-value" [class.negative]="result.saleLiquidity.netSaleLiquidityA < 0">
+                {{ result.saleLiquidity.netSaleLiquidityA | eur }}
+              </span>
+            </div>
+            @if (result.saleLiquidity.currentCashBalance > 0) {
+              <div class="breakdown-row addition">
+                <span class="breakdown-label" i18n="@@plusCurrentCash">Current Cash Balance</span>
+                <span class="breakdown-value positive">+ {{ result.saleLiquidity.currentCashBalance | eur }}</span>
+              </div>
+            }
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@realAvailableCashA">Real Available Cash A</span>
+              <span class="breakdown-value" [class.highlight]="result.saleLiquidity.realAvailableCashA >= 0"
+                    [class.negative]="result.saleLiquidity.realAvailableCashA < 0">
+                {{ result.saleLiquidity.realAvailableCashA | eur }}
+              </span>
+            </div>
+          </div>
         </div>
-        @if (result.saleLiquidity.saleRelatedCosts > 0) {
-          <div class="breakdown-row deduction">
-            <span class="breakdown-label" i18n="@@lessSaleRelatedCosts">Sale Related Costs</span>
-            <span class="breakdown-value negative">- {{ result.saleLiquidity.saleRelatedCosts | eur }}</span>
+
+        <!-- Column B -->
+        <div class="accounting-col">
+          <h4 i18n="@@saleColumnB">Accounting B (cash)</h4>
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@unofficialSalePriceB">Unofficial Sale Price (B)</span>
+              <span class="breakdown-value">{{ result.saleLiquidity.unofficialSalePriceB | eur }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@netSaleLiquidityB">Net Sale Liquidity B</span>
+              <span class="breakdown-value">{{ result.saleLiquidity.netSaleLiquidityB | eur }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@realAvailableCashB">Real Available Cash B</span>
+              <span class="breakdown-value highlight">{{ result.saleLiquidity.realAvailableCashB | eur }}</span>
+            </div>
           </div>
-        }
-        @if (result.saleLiquidity.outstandingMortgageDebt > 0) {
-          <div class="breakdown-row deduction">
-            <span class="breakdown-label" i18n="@@lessOutstandingMortgage">Outstanding Mortgage</span>
-            <span class="breakdown-value negative">- {{ result.saleLiquidity.outstandingMortgageDebt | eur }}</span>
-          </div>
-        }
-        @if (result.saleLiquidity.municipalCapitalGainsTax > 0) {
-          <div class="breakdown-row deduction">
-            <span class="breakdown-label" i18n="@@lessCapitalGainsTax">Capital Gains Tax</span>
-            <span class="breakdown-value negative">- {{ result.saleLiquidity.municipalCapitalGainsTax | eur }}</span>
-          </div>
-        }
-        @if (result.saleLiquidity.extraordinaryCosts > 0) {
-          <div class="breakdown-row deduction">
-            <span class="breakdown-label" i18n="@@lessExtraordinaryCosts">Extraordinary Costs</span>
-            <span class="breakdown-value negative">- {{ result.saleLiquidity.extraordinaryCosts | eur }}</span>
-          </div>
-        }
-        @if (result.saleLiquidity.totalSaleDeductions > 0) {
-          <div class="breakdown-row subtotal-minor">
-            <span class="breakdown-label muted" i18n="@@totalSaleDeductions">Total Deductions</span>
-            <span class="breakdown-value muted negative">- {{ result.saleLiquidity.totalSaleDeductions | eur }}</span>
-          </div>
-        }
-        <mat-divider></mat-divider>
-        <div class="breakdown-row subtotal">
-          <span class="breakdown-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
-          <span class="breakdown-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
         </div>
       </div>
 
-      <h4 i18n="@@cashBreakdown">Available Cash</h4>
-      <div class="breakdown-list">
+      <mat-divider></mat-divider>
+
+      <div class="totals-row">
         <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@netSaleLiquidity">Net Sale Liquidity</span>
-          <span class="breakdown-value">{{ result.saleLiquidity.netSaleLiquidity | eur }}</span>
+          <span class="breakdown-label" i18n="@@totalSalePrice">Total Sale Price (A + B)</span>
+          <span class="breakdown-value">{{ result.saleLiquidity.totalSalePrice | eur }}</span>
         </div>
-        @if (result.saleLiquidity.currentCashBalance > 0) {
-          <div class="breakdown-row addition">
-            <span class="breakdown-label" i18n="@@plusCurrentCash">Current Cash Balance</span>
-            <span class="breakdown-value positive">+ {{ result.saleLiquidity.currentCashBalance | eur }}</span>
-          </div>
-        }
-        <mat-divider></mat-divider>
-        <div class="breakdown-row subtotal">
-          <span class="breakdown-label" i18n="@@realAvailableCash">Real Available Cash</span>
-          <span class="breakdown-value highlight">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@totalRealAvailableCash">Total Real Available Cash</span>
+          <span class="breakdown-value highlight">{{ result.saleLiquidity.totalRealAvailableCash | eur }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@saleViable">Sale Viable</span>
+          <span class="viable-answer" [class.viable]="result.saleLiquidity.isSaleViable"
+                [class.not-viable]="!result.saleLiquidity.isSaleViable">
+            <mat-icon>{{ result.saleLiquidity.isSaleViable ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ result.saleLiquidity.isSaleViable ? 'SÍ' : 'NO' }}
+          </span>
         </div>
       </div>
     </mat-card-content>
@@ -78,12 +122,29 @@
       <h4 i18n="@@mortgageCalcBreakdown">Mortgage Calculation</h4>
       <div class="breakdown-list">
         <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@purchasePriceResult">Purchase Price</span>
-          <span class="breakdown-value">{{ result.purchaseCosts.purchasePrice | eur }}</span>
+          <span class="breakdown-label" i18n="@@officialPurchasePriceA">Official Purchase Price (A)</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.officialPurchasePriceA | eur }}</span>
         </div>
         <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@deedPriceResult">Deed Price</span>
-          <span class="breakdown-value">{{ result.purchaseCosts.deedPrice | eur }}</span>
+          <span class="breakdown-label" i18n="@@unofficialPurchasePriceB">Unofficial Purchase Price (B)</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.unofficialPurchasePriceB | eur }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@totalPurchasePrice">Total Purchase Price (A + B)</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.totalPurchasePrice | eur }}</span>
+        </div>
+        <mat-divider></mat-divider>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@appraisalValue">Appraisal Value</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.appraisalValue | eur }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@effectiveAppraisalValue">Effective Appraisal Value</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.effectiveAppraisalValue | eur }}</span>
+        </div>
+        <div class="breakdown-row">
+          <span class="breakdown-label" i18n="@@mortgageBaseValue">Mortgage Base Value (min A, appraisal)</span>
+          <span class="breakdown-value">{{ result.purchaseCosts.mortgageBaseValue | eur }}</span>
         </div>
         <div class="breakdown-row">
           <span class="breakdown-label" i18n="@@financeablePercentageResult">Financeable %</span>
@@ -93,91 +154,166 @@
         <div class="breakdown-row subtotal">
           <span class="breakdown-label" i18n="@@maxMortgage">Max Mortgage</span>
           <span class="breakdown-value">
-            {{ result.purchaseCosts.deedPrice | eur }} × {{ result.purchaseCosts.financeablePercentage | number:'1.0-0' }}% = {{ result.purchaseCosts.maxMortgageAmount | eur }}
-          </span>
-        </div>
-        <div class="breakdown-row subtotal">
-          <span class="breakdown-label" i18n="@@entryPayment">Entry Payment</span>
-          <span class="breakdown-value">
-            {{ result.purchaseCosts.purchasePrice | eur }} − {{ result.purchaseCosts.maxMortgageAmount | eur }} = {{ result.purchaseCosts.entryPayment | eur }}
+            {{ result.purchaseCosts.mortgageBaseValue | eur }} × {{ result.purchaseCosts.financeablePercentage | number:'1.0-0' }}% = {{ result.purchaseCosts.maxMortgageAmount | eur }}
           </span>
         </div>
       </div>
 
-      <h4 i18n="@@purchaseBreakdown">Purchase Costs</h4>
-      <div class="breakdown-list">
-        <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@entryPayment">Entry Payment</span>
-          <span class="breakdown-value">{{ result.purchaseCosts.entryPayment | eur }}</span>
+      <div class="accounting-columns">
+        <!-- Column A -->
+        <div class="accounting-col">
+          <h4 i18n="@@purchaseColumnA">Costs A (official)</h4>
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@entryPaymentA">Entry Payment A</span>
+              <span class="breakdown-value">{{ result.purchaseCosts.entryPaymentA | eur }}</span>
+            </div>
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@itp">ITP</span>
+              <span class="breakdown-value">{{ result.purchaseCosts.itpAmount | eur }}</span>
+            </div>
+            @if (result.purchaseCosts.notaryCosts > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@lessNotaryCosts">Notary Costs</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.notaryCosts | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.administrativeCosts > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@lessAdministrativeCosts">Administrative Costs</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.administrativeCosts | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.appraisalCosts > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@lessAppraisalCosts">Appraisal Costs</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.appraisalCosts | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.agencyCosts > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@lessAgencyCosts">Agency Costs</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.agencyCosts | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.otherCosts > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@lessOtherCosts">Other Costs</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.otherCosts | eur }}</span>
+              </div>
+            }
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@totalCashNeededA">Total Cash Needed A</span>
+              <span class="breakdown-value">{{ result.purchaseCosts.totalCashNeededA | eur }}</span>
+            </div>
+          </div>
         </div>
-        <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@itp">ITP</span>
-          <span class="breakdown-value">{{ result.purchaseCosts.itpAmount | eur }}</span>
-        </div>
-        @if (result.purchaseCosts.notaryCosts > 0) {
-          <div class="breakdown-row">
-            <span class="breakdown-label" i18n="@@lessNotaryCosts">Notary Costs</span>
-            <span class="breakdown-value">{{ result.purchaseCosts.notaryCosts | eur }}</span>
+
+        <!-- Column B -->
+        <div class="accounting-col">
+          <h4 i18n="@@purchaseColumnB">Costs B (cash)</h4>
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@entryPaymentB">Entry Payment B (cash to seller)</span>
+              <span class="breakdown-value">{{ result.purchaseCosts.entryPaymentB | eur }}</span>
+            </div>
+            @if (result.purchaseCosts.agencyCostsB > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@agencyCostsB">Agency Costs (B, cash)</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.agencyCostsB | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.otherCostsB > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@otherCostsB">Other Costs (B, cash)</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.otherCostsB | eur }}</span>
+              </div>
+            }
+            @if (result.purchaseCosts.renovationCostsB > 0) {
+              <div class="breakdown-row">
+                <span class="breakdown-label" i18n="@@renovationCostsB">Renovation Costs (B, cash)</span>
+                <span class="breakdown-value">{{ result.purchaseCosts.renovationCostsB | eur }}</span>
+              </div>
+            }
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@totalCashNeededB">Total Cash Needed B</span>
+              <span class="breakdown-value">{{ result.purchaseCosts.totalCashNeededB | eur }}</span>
+            </div>
           </div>
-        }
-        @if (result.purchaseCosts.administrativeCosts > 0) {
-          <div class="breakdown-row">
-            <span class="breakdown-label" i18n="@@lessAdministrativeCosts">Administrative Costs</span>
-            <span class="breakdown-value">{{ result.purchaseCosts.administrativeCosts | eur }}</span>
-          </div>
-        }
-        @if (result.purchaseCosts.appraisalCosts > 0) {
-          <div class="breakdown-row">
-            <span class="breakdown-label" i18n="@@lessAppraisalCosts">Appraisal Costs</span>
-            <span class="breakdown-value">{{ result.purchaseCosts.appraisalCosts | eur }}</span>
-          </div>
-        }
-        @if (result.purchaseCosts.agencyCosts > 0) {
-          <div class="breakdown-row">
-            <span class="breakdown-label" i18n="@@lessAgencyCosts">Agency Costs</span>
-            <span class="breakdown-value">{{ result.purchaseCosts.agencyCosts | eur }}</span>
-          </div>
-        }
-        @if (result.purchaseCosts.otherCosts > 0) {
-          <div class="breakdown-row">
-            <span class="breakdown-label" i18n="@@lessOtherCosts">Other Costs</span>
-            <span class="breakdown-value">{{ result.purchaseCosts.otherCosts | eur }}</span>
-          </div>
-        }
-        <mat-divider></mat-divider>
-        <div class="breakdown-row subtotal">
-          <span class="breakdown-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
-          <span class="breakdown-value">{{ result.purchaseCosts.totalCashNeeded | eur }}</span>
         </div>
       </div>
 
       <h4 i18n="@@liquidityBreakdown">Liquidity Balance</h4>
-      <div class="breakdown-list">
-        <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@realAvailableCash">Real Available Cash</span>
-          <span class="breakdown-value">{{ result.saleLiquidity.realAvailableCash | eur }}</span>
+      <div class="accounting-columns">
+        <!-- Column A -->
+        <div class="accounting-col">
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@realAvailableCashA">Real Available Cash A</span>
+              <span class="breakdown-value">{{ result.saleLiquidity.realAvailableCashA | eur }}</span>
+            </div>
+            <div class="breakdown-row deduction">
+              <span class="breakdown-label" i18n="@@totalCashNeededA">Total Cash Needed A</span>
+              <span class="breakdown-value negative">- {{ result.purchaseCosts.totalCashNeededA | eur }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@remainingLiquidityA">Remaining Liquidity A</span>
+              <span class="breakdown-value" [class.negative]="result.purchaseCosts.remainingLiquidityA < 0"
+                    [class.highlight]="result.purchaseCosts.remainingLiquidityA >= 0">
+                {{ result.purchaseCosts.remainingLiquidityA | eur }}
+              </span>
+            </div>
+          </div>
         </div>
-        <div class="breakdown-row deduction">
-          <span class="breakdown-label" i18n="@@totalCashNeeded">Total Cash Needed</span>
-          <span class="breakdown-value negative">- {{ result.purchaseCosts.totalCashNeeded | eur }}</span>
-        </div>
-        <mat-divider></mat-divider>
-        <div class="breakdown-row subtotal">
-          <span class="breakdown-label" i18n="@@remainingLiquidity">Remaining Liquidity</span>
-          <span class="breakdown-value" [class.negative]="result.purchaseCosts.remainingLiquidity < 0"
-                [class.highlight]="result.purchaseCosts.remainingLiquidity >= 0">
-            {{ result.purchaseCosts.remainingLiquidity | eur }}
-          </span>
-        </div>
-        <div class="breakdown-row">
-          <span class="breakdown-label" i18n="@@viable">Viable?</span>
-          <span class="viable-answer" [class.viable]="result.purchaseCosts.isViable"
-                [class.not-viable]="!result.purchaseCosts.isViable">
-            <mat-icon>{{ result.purchaseCosts.isViable ? 'check_circle' : 'cancel' }}</mat-icon>
-            {{ result.purchaseCosts.isViable ? 'SÍ' : 'NO' }}
-          </span>
+
+        <!-- Column B -->
+        <div class="accounting-col">
+          <div class="breakdown-list">
+            <div class="breakdown-row">
+              <span class="breakdown-label" i18n="@@realAvailableCashB">Real Available Cash B</span>
+              <span class="breakdown-value">{{ result.saleLiquidity.realAvailableCashB | eur }}</span>
+            </div>
+            <div class="breakdown-row deduction">
+              <span class="breakdown-label" i18n="@@totalCashNeededB">Total Cash Needed B</span>
+              <span class="breakdown-value negative">- {{ result.purchaseCosts.totalCashNeededB | eur }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="breakdown-row subtotal">
+              <span class="breakdown-label" i18n="@@remainingLiquidityB">Remaining Liquidity B</span>
+              <span class="breakdown-value" [class.negative]="result.purchaseCosts.remainingLiquidityB < 0"
+                    [class.highlight]="result.purchaseCosts.remainingLiquidityB >= 0">
+                {{ result.purchaseCosts.remainingLiquidityB | eur }}
+              </span>
+            </div>
+            @if (result.purchaseCosts.idleCashB > 0) {
+              <div class="idle-cash-warning">
+                <mat-icon>warning</mat-icon>
+                <span i18n="@@idleCashB">Idle Cash B</span>:
+                <strong>{{ result.purchaseCosts.idleCashB | eur }}</strong>
+              </div>
+            }
+          </div>
         </div>
       </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="breakdown-row viable-row">
+        <span class="breakdown-label" i18n="@@viable">Viable?</span>
+        <span class="viable-answer" [class.viable]="result.purchaseCosts.isViable"
+              [class.not-viable]="!result.purchaseCosts.isViable">
+          <mat-icon>{{ result.purchaseCosts.isViable ? 'check_circle' : 'cancel' }}</mat-icon>
+          {{ result.purchaseCosts.isViable ? 'SÍ' : 'NO' }}
+        </span>
+      </div>
+
+      @if (result.purchaseCosts.balancingAdvice) {
+        <h4 i18n="@@balancingAdvice">Balancing Advice</h4>
+        <div class="balancing-advice">{{ result.purchaseCosts.balancingAdvice }}</div>
+      }
     </mat-card-content>
   </mat-card>
 

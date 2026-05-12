@@ -5,11 +5,24 @@
     </mat-card-header>
     <mat-card-content>
       <div class="fields">
-        <mat-form-field>
-          <mat-label i18n="@@salePrice">Sale Price</mat-label>
-          <input matInput type="number" [(ngModel)]="sale.salePrice" min="0" />
-          <span matTextPrefix>EUR&nbsp;</span>
-        </mat-form-field>
+        <div class="accounting-split">
+          <mat-form-field>
+            <mat-label i18n="@@officialSalePriceA">Official Sale Price (A)</mat-label>
+            <input matInput type="number" [(ngModel)]="sale.officialSalePriceA" min="0" />
+            <span matTextPrefix>EUR&nbsp;</span>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label i18n="@@unofficialSalePriceB">Unofficial Sale Price (B, cash)</mat-label>
+            <input matInput type="number" [(ngModel)]="sale.unofficialSalePriceB" min="0" />
+            <span matTextPrefix>EUR&nbsp;</span>
+          </mat-form-field>
+        </div>
+
+        <div class="split-total">
+          <span i18n="@@totalNegotiatedSalePrice">Total negotiated price:</span>
+          {{ totalSalePrice() | number:'1.2-2' }} EUR
+        </div>
 
         <mat-form-field>
           <mat-label i18n="@@saleRelatedCosts">Sale-Related Costs</mat-label>

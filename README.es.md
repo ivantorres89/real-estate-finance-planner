@@ -104,8 +104,37 @@ Donde: P = principal, r = tasa de interes mensual (TIN/12/100), n = meses totale
 
 ### ITP (Impuesto de Transmisiones Patrimoniales)
 
-- Estandar: **6%** del precio escriturado
-- Reducido (familia numerosa / discapacidad): **3%** del precio escriturado
+- Estandar: **6%** del precio oficial de compra A
+- Reducido (familia numerosa / discapacidad): **3%** del precio oficial de compra A
+
+### Doble contabilidad A/B
+
+La venta y la compra se parten en dos contabilidades:
+
+- **Lado A (oficial)** — lo que se firma en escritura. La cancelacion de la deuda hipotecaria del vendedor, los gastos de venta, ITP, notaria, gestoria, tasacion, agencia, otros gastos de compra y la entrada hipotecaria provienen siempre de A.
+- **Lado B (efectivo)** — dinero en negro. No cancela hipotecas, no computa para el LTV de la hipoteca nueva, y no puede ingresarse en una cuenta sin justificacion. Util para: sobreprecio en efectivo al vendedor de la compra y reformas pagables en efectivo.
+
+```
+totalSaleDeductionsA = saleRelatedCosts + outstandingMortgageDebt + plusvaliaMunicipal + costesExtraordinarios
+netSaleLiquidityA    = officialSalePriceA - totalSaleDeductionsA
+netSaleLiquidityB    = unofficialSalePriceB
+realAvailableCashA   = currentCashBalance + netSaleLiquidityA
+realAvailableCashB   = netSaleLiquidityB
+
+tasacionEfectiva     = appraisalValue > 0 ? appraisalValue : officialPurchasePriceA
+mortgageBaseValue    = min(officialPurchasePriceA, tasacionEfectiva)
+maxMortgage          = mortgageBaseValue × financeablePercentage/100
+itp                  = officialPurchasePriceA × itpRate
+entryPaymentA        = max(0, officialPurchasePriceA - maxMortgage)
+entryPaymentB        = unofficialPurchasePriceB
+totalCashNeededA     = entryPaymentA + itp + notaria + gestoria + tasacion + agencia + otros
+totalCashNeededB     = entryPaymentB + renovationCostsB
+remainingLiquidityA  = realAvailableCashA - totalCashNeededA
+remainingLiquidityB  = realAvailableCashB - totalCashNeededB
+idleCashB            = max(0, remainingLiquidityB)
+```
+
+La operacion es **viable** cuando `realAvailableCashA >= 0`, `remainingLiquidityA >= 0` y `remainingLiquidityB >= 0`. El calculador emite un `BalancingAdvice` multilinea que avisa de deficit en A o B, cash B ocioso por encima de 5.000 EUR y la hipoteca topada por tasacion.
 
 ### Comparacion de Estrategias
 

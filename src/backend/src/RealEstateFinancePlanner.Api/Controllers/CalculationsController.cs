@@ -23,8 +23,21 @@ public class CalculationsController : ControllerBase
         var result = _analysisService.CalculateSaleLiquidity(request.Sale.ToEntity());
         return Ok(new SaleLiquidityResultDto
         {
-            NetSaleLiquidity = result.NetSaleLiquidity,
-            RealAvailableCash = result.RealAvailableCash,
+            OfficialSalePriceA = result.OfficialSalePriceA,
+            UnofficialSalePriceB = result.UnofficialSalePriceB,
+            TotalSalePrice = result.TotalSalePrice,
+            SaleRelatedCosts = result.SaleRelatedCosts,
+            OutstandingMortgageDebt = result.OutstandingMortgageDebt,
+            MunicipalCapitalGainsTax = result.MunicipalCapitalGainsTax,
+            ExtraordinaryCosts = result.ExtraordinaryCosts,
+            TotalSaleDeductionsA = result.TotalSaleDeductionsA,
+            NetSaleLiquidityA = result.NetSaleLiquidityA,
+            NetSaleLiquidityB = result.NetSaleLiquidityB,
+            CurrentCashBalance = result.CurrentCashBalance,
+            RealAvailableCashA = result.RealAvailableCashA,
+            RealAvailableCashB = result.RealAvailableCashB,
+            TotalRealAvailableCash = result.TotalRealAvailableCash,
+            IsSaleViable = result.IsSaleViable,
         });
     }
 
@@ -33,15 +46,37 @@ public class CalculationsController : ControllerBase
     public IActionResult CalculatePurchaseCosts([FromBody] PurchaseCostRequest request)
     {
         var result = _analysisService.CalculatePurchaseCosts(
-            request.Purchase.ToEntity(), request.RealAvailableCash);
+            request.Purchase.ToEntity(),
+            request.RealAvailableCashA,
+            request.RealAvailableCashB);
         return Ok(new PurchaseCostResultDto
         {
+            OfficialPurchasePriceA = result.OfficialPurchasePriceA,
+            UnofficialPurchasePriceB = result.UnofficialPurchasePriceB,
+            TotalPurchasePrice = result.TotalPurchasePrice,
+            AppraisalValue = result.AppraisalValue,
+            EffectiveAppraisalValue = result.EffectiveAppraisalValue,
+            MortgageBaseValue = result.MortgageBaseValue,
+            FinanceablePercentage = result.FinanceablePercentage,
             ItpAmount = result.ItpAmount,
             MaxMortgageAmount = result.MaxMortgageAmount,
-            EntryPayment = result.EntryPayment,
-            TotalCashNeeded = result.TotalCashNeeded,
-            RemainingLiquidity = result.RemainingLiquidity,
+            EntryPaymentA = result.EntryPaymentA,
+            EntryPaymentB = result.EntryPaymentB,
+            NotaryCosts = result.NotaryCosts,
+            AdministrativeCosts = result.AdministrativeCosts,
+            AppraisalCosts = result.AppraisalCosts,
+            AgencyCosts = result.AgencyCosts,
+            AgencyCostsB = result.AgencyCostsB,
+            OtherCosts = result.OtherCosts,
+            OtherCostsB = result.OtherCostsB,
+            RenovationCostsB = result.RenovationCostsB,
+            TotalCashNeededA = result.TotalCashNeededA,
+            TotalCashNeededB = result.TotalCashNeededB,
+            RemainingLiquidityA = result.RemainingLiquidityA,
+            RemainingLiquidityB = result.RemainingLiquidityB,
+            IdleCashB = result.IdleCashB,
             IsViable = result.IsViable,
+            BalancingAdvice = result.BalancingAdvice,
         });
     }
 
@@ -84,10 +119,10 @@ public class CalculationsController : ControllerBase
     public IActionResult CompareStrategies([FromBody] StrategyComparisonRequest request)
     {
         var result = _analysisService.CompareStrategies(
-            request.RealAvailableCash,
-            request.PurchasePrice,
+            request.RealAvailableCashA,
+            request.OfficialPurchasePriceA,
             request.MaxMortgageAmount,
-            request.TotalPurchaseCostsExcludingEntry,
+            request.TotalPurchaseCostsExcludingEntryA,
             request.MortgageTin,
             request.TermYears,
             request.MonthlyNetSalary,

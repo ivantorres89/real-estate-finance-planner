@@ -9,8 +9,11 @@ public class AnalysisService : IAnalysisService
     public SaleLiquidityResult CalculateSaleLiquidity(SaleData sale)
         => SaleLiquidityCalculator.Calculate(sale);
 
-    public PurchaseCostResult CalculatePurchaseCosts(PurchaseData purchase, decimal realAvailableCash)
-        => PurchaseCostCalculator.Calculate(purchase, realAvailableCash);
+    public PurchaseCostResult CalculatePurchaseCosts(
+        PurchaseData purchase,
+        decimal realAvailableCashA,
+        decimal realAvailableCashB)
+        => PurchaseCostCalculator.Calculate(purchase, realAvailableCashA, realAvailableCashB);
 
     public DebtCapacityResult CalculateDebtCapacity(DebtCapacityData debtData)
         => DebtCapacityCalculator.Calculate(debtData);
@@ -32,10 +35,10 @@ public class AnalysisService : IAnalysisService
         => BonusEvaluator.Evaluate(bankOffer, mortgagePrincipal, referenceTermYears, monthlyNetSalary, monthlyOutstandingLoanPayments);
 
     public StrategyComparisonResult CompareStrategies(
-        decimal realAvailableCash,
-        decimal purchasePrice,
+        decimal realAvailableCashA,
+        decimal officialPurchasePriceA,
         decimal maxMortgageAmount,
-        decimal totalPurchaseCostsExcludingEntry,
+        decimal totalPurchaseCostsExcludingEntryA,
         decimal mortgageTin,
         int termYears,
         decimal monthlyNetSalary,
@@ -43,8 +46,8 @@ public class AnalysisService : IAnalysisService
         decimal totalAcceptedBonusCost,
         StrategyParameters parameters)
         => StrategyRecommendationEngine.Compare(
-            realAvailableCash, purchasePrice, maxMortgageAmount,
-            totalPurchaseCostsExcludingEntry, mortgageTin, termYears,
+            realAvailableCashA, officialPurchasePriceA, maxMortgageAmount,
+            totalPurchaseCostsExcludingEntryA, mortgageTin, termYears,
             monthlyNetSalary, monthlyOutstandingLoanPayments,
             totalAcceptedBonusCost, parameters);
 
@@ -56,7 +59,10 @@ public class AnalysisService : IAnalysisService
         var saleLiquidity = CalculateSaleLiquidity(scenario.Sale);
 
         // 2. Purchase costs
-        var purchaseCosts = CalculatePurchaseCosts(scenario.Purchase, saleLiquidity.RealAvailableCash);
+        var purchaseCosts = CalculatePurchaseCosts(
+            scenario.Purchase,
+            saleLiquidity.RealAvailableCashA,
+            saleLiquidity.RealAvailableCashB);
 
         // 3. Debt capacity
         var debtCapacity = CalculateDebtCapacity(scenario.DebtCapacity);
@@ -106,7 +112,10 @@ public class AnalysisService : IAnalysisService
                 commonTerm);
         }
 
-        // 6. Strategy comparison (use best bank's final TIN)
+        // 6. Strategy comparison (use best bank's final TIN). Strategy operates only on
+        // the A-side: B-side cash is not freely investable capital (it cannot be moved
+        // into a brokerage account without justification), so the A/B comparison
+        // ignores B.
         StrategyComparisonResult? strategyComparison = null;
         if (bankResults.Count > 0)
         {
@@ -115,13 +124,13 @@ public class AnalysisService : IAnalysisService
                 ? bestBank.MortgagesByTerm[bestBank.MortgagesByTerm.Count / 2].TermYears
                 : defaultTermYears;
 
-            decimal totalCostsExcludingEntry = purchaseCosts.TotalCashNeeded - purchaseCosts.EntryPayment;
+            decimal totalCostsExcludingEntryA = purchaseCosts.TotalCashNeededA - purchaseCosts.EntryPaymentA;
 
             strategyComparison = CompareStrategies(
-                saleLiquidity.RealAvailableCash,
-                scenario.Purchase.PurchasePrice,
+                saleLiquidity.RealAvailableCashA,
+                scenario.Purchase.OfficialPurchasePriceA,
                 purchaseCosts.MaxMortgageAmount,
-                totalCostsExcludingEntry,
+                totalCostsExcludingEntryA,
                 bestBank.FinalRealTin,
                 strategyTerm,
                 scenario.DebtCapacity.MonthlyNetSalary,

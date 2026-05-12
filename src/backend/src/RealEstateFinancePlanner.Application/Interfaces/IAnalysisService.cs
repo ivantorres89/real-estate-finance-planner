@@ -5,7 +5,12 @@ namespace RealEstateFinancePlanner.Application.Interfaces;
 public interface IAnalysisService
 {
     SaleLiquidityResult CalculateSaleLiquidity(SaleData sale);
-    PurchaseCostResult CalculatePurchaseCosts(PurchaseData purchase, decimal realAvailableCash);
+
+    PurchaseCostResult CalculatePurchaseCosts(
+        PurchaseData purchase,
+        decimal realAvailableCashA,
+        decimal realAvailableCashB);
+
     DebtCapacityResult CalculateDebtCapacity(DebtCapacityData debtData);
 
     MortgageCalculationResult CalculateMortgage(
@@ -23,10 +28,10 @@ public interface IAnalysisService
         decimal monthlyOutstandingLoanPayments);
 
     StrategyComparisonResult CompareStrategies(
-        decimal realAvailableCash,
-        decimal purchasePrice,
+        decimal realAvailableCashA,
+        decimal officialPurchasePriceA,
         decimal maxMortgageAmount,
-        decimal totalPurchaseCostsExcludingEntry,
+        decimal totalPurchaseCostsExcludingEntryA,
         decimal mortgageTin,
         int termYears,
         decimal monthlyNetSalary,

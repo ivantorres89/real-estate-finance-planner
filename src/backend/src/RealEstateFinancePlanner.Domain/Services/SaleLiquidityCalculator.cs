@@ -8,30 +8,43 @@ public static class SaleLiquidityCalculator
     {
         ArgumentNullException.ThrowIfNull(sale);
 
-        if (sale.SalePrice < 0)
-            throw new ArgumentException("Sale price cannot be negative.", nameof(sale));
+        if (sale.OfficialSalePriceA < 0)
+            throw new ArgumentException("Official sale price A cannot be negative.", nameof(sale));
+        if (sale.UnofficialSalePriceB < 0)
+            throw new ArgumentException("Unofficial sale price B cannot be negative.", nameof(sale));
 
-        decimal totalSaleDeductions =
+        decimal totalSalePrice = sale.OfficialSalePriceA + sale.UnofficialSalePriceB;
+
+        decimal totalSaleDeductionsA =
             sale.SaleRelatedCosts
             + sale.OutstandingMortgageDebt
             + sale.MunicipalCapitalGainsTax
             + sale.ExtraordinaryCosts;
 
-        decimal netSaleLiquidity = sale.SalePrice - totalSaleDeductions;
+        decimal netSaleLiquidityA = sale.OfficialSalePriceA - totalSaleDeductionsA;
+        decimal netSaleLiquidityB = sale.UnofficialSalePriceB;
 
-        decimal realAvailableCash = sale.CurrentCashBalance + netSaleLiquidity;
+        decimal realAvailableCashA = sale.CurrentCashBalance + netSaleLiquidityA;
+        decimal realAvailableCashB = netSaleLiquidityB;
+        decimal totalRealAvailableCash = realAvailableCashA + realAvailableCashB;
 
         return new SaleLiquidityResult
         {
-            SalePrice = sale.SalePrice,
+            OfficialSalePriceA = sale.OfficialSalePriceA,
+            UnofficialSalePriceB = sale.UnofficialSalePriceB,
+            TotalSalePrice = totalSalePrice,
             SaleRelatedCosts = sale.SaleRelatedCosts,
             OutstandingMortgageDebt = sale.OutstandingMortgageDebt,
             MunicipalCapitalGainsTax = sale.MunicipalCapitalGainsTax,
             ExtraordinaryCosts = sale.ExtraordinaryCosts,
-            TotalSaleDeductions = totalSaleDeductions,
-            NetSaleLiquidity = netSaleLiquidity,
+            TotalSaleDeductionsA = totalSaleDeductionsA,
+            NetSaleLiquidityA = netSaleLiquidityA,
+            NetSaleLiquidityB = netSaleLiquidityB,
             CurrentCashBalance = sale.CurrentCashBalance,
-            RealAvailableCash = realAvailableCash
+            RealAvailableCashA = realAvailableCashA,
+            RealAvailableCashB = realAvailableCashB,
+            TotalRealAvailableCash = totalRealAvailableCash,
+            IsSaleViable = realAvailableCashA >= 0m,
         };
     }
 }

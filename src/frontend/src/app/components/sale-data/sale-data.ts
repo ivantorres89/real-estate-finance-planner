@@ -21,4 +21,8 @@ import { SaleDataDto, DebtCapacityDataDto } from '../../models';
 export class SaleDataComponent {
   @Input() sale!: SaleDataDto;
   @Input() debtCapacity!: DebtCapacityDataDto;
+
+  totalSalePrice(): number {
+    return (Number(this.sale?.officialSalePriceA) || 0) + (Number(this.sale?.unofficialSalePriceB) || 0);
+  }
 }

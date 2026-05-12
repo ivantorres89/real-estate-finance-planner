@@ -86,6 +86,57 @@ Using annual compounding for simplicity and clarity. Monthly compounding would b
 | Scalar API docs in all environments | Convenience for development and testing. In production, it would be behind auth. |
 | Bonus TIN applied for full term | Slight overestimation of benefit for time-limited bonuses. Clear enough for decision-making. |
 
+## Dual A/B Accounting (sale and purchase)
+
+### Motivation
+Sale and purchase no longer use a single price field. They are split between two accountings:
+- **Accounting A:** what gets written on the deed (declarable, bankable, ITP base, visible to tax office and bank).
+- **Accounting B:** cash handed over off-the-books. Cannot be deposited without justification, cannot cancel an existing mortgage, does not count toward the new mortgage's loan-to-value.
+
+### Invariants
+| Concept | Side |
+|---|---|
+| Seller's outstanding mortgage cancellation | A |
+| Sale-related costs (notary, agency, etc.) | A |
+| Municipal capital gains tax | A (base = A) |
+| Extraordinary costs | A |
+| Cash already in account | A |
+| Sale liquidity B | only spendable as B or B-side renovations |
+| ITP, notary, gestoria, appraisal, agency, other purchase costs | A |
+| Mortgage entry payment | A |
+| Off-the-books premium paid to new seller | B |
+| Renovations | B |
+
+### Viability constraints
+- **Sale viable:** `currentCashBalance + NetSaleLiquidityA >= 0`
+- **Purchase viable:** `RealAvailableCashA >= TotalCashNeededA` AND `RealAvailableCashB >= TotalCashNeededB`
+- **Optimal B squaring:** `IdleCashB` close to 0 (leftover B is "dead money").
+
+### Mortgage with appraisal cap
+`maxMortgage = financeablePercentage × min(officialPurchasePriceA, effectiveAppraisalValue)`. If `AppraisalValue` is 0, the model assumes `appraisal = A` (the typical "low appraisal" tactic). If appraisal drops below A, the mortgage gets capped by the appraisal and `BalancingAdvice` flags it.
+
+### Balancing advice engine
+The calculator emits ordered hints:
+1. Sale A doesn't cover debt + official sale costs.
+2. Purchase A doesn't cover entry + ITP + costs.
+3. Purchase B doesn't cover off-the-books premium + renovations.
+4. `IdleCashB > 5,000 EUR` (fixed-threshold private constant).
+5. Appraisal caps the mortgage below A.
+6. If none of the above: "Operación cuadrada" (balanced).
+
+### Patrimonial strategy on A-side only
+The "amortize faster vs maintain capital" comparison operates only on A. B-side cash is not freely investable (it cannot land in a brokerage account without a paper trail), so it stays out of that math. The mortgage math also runs on A because the bank only sees A.
+
+### Legacy migration on read
+Older scenarios stored with `SalePrice`, `PurchasePrice`, `DeedPrice` are migrated lazily inside the MongoDB repository:
+- `SalePrice` -> `OfficialSalePriceA`, `UnofficialSalePriceB = 0`
+- `PurchasePrice` -> `OfficialPurchasePriceA`, `UnofficialPurchasePriceB = 0`
+- `DeedPrice` -> `AppraisalValue`
+- `RenovationCostsB = 0`
+- `LastResult` is cleared (schema changed) and the user must re-run the analysis.
+
+Captured via a `Dictionary<string, object>? LegacyExtraElements` field mapped as BSON `ExtraElements` through `BsonClassMap.MapExtraElementsProperty`. Domain layer stays free of MongoDB types.
+
 ## Future Evolution Opportunities
 1. **Amortization schedule export:** Generate month-by-month amortization table (PDF/CSV)
 2. **Variable rate support:** Add Euribor + spread modeling with rate scenarios

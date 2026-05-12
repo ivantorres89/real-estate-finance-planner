@@ -3,16 +3,36 @@
     <mat-card-title i18n="@@newPropertyPurchase">New Property Purchase</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div class="fields-grid">
+    <div class="accounting-split">
       <mat-form-field>
-        <mat-label i18n="@@purchasePrice">Purchase Price</mat-label>
-        <input matInput type="number" [(ngModel)]="purchase.purchasePrice" min="0" />
+        <mat-label i18n="@@officialPurchasePriceA">Official Purchase Price (A)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.officialPurchasePriceA" min="0" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label i18n="@@deedPrice">Deed Price</mat-label>
-        <input matInput type="number" [(ngModel)]="purchase.deedPrice" min="0" />
+        <mat-label i18n="@@unofficialPurchasePriceB">Unofficial Purchase Price (B, cash)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.unofficialPurchasePriceB" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+    </div>
+
+    <div class="split-total">
+      <span i18n="@@totalNegotiatedPurchasePrice">Total negotiated price:</span>
+      {{ totalPurchasePrice() | number:'1.2-2' }} EUR
+    </div>
+
+    @if (appraisalCapsMortgage()) {
+      <div class="appraisal-warning" i18n="@@appraisalCapsMortgage">
+        Appraisal value is below A: the mortgage is capped by the appraisal.
+      </div>
+    }
+
+    <div class="fields-grid">
+      <mat-form-field>
+        <mat-label i18n="@@appraisalValue">Appraisal Value</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.appraisalValue" min="0"
+               placeholder="0 = use A" i18n-placeholder="@@appraisalPlaceholder" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
 
@@ -46,14 +66,32 @@
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label i18n="@@agencyCosts">Agency Costs</mat-label>
+        <mat-label i18n="@@agencyCostsA">Agency Costs (A, invoiced)</mat-label>
         <input matInput type="number" [(ngModel)]="purchase.agencyCosts" min="0" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
 
       <mat-form-field>
-        <mat-label i18n="@@otherCosts">Other Costs</mat-label>
+        <mat-label i18n="@@agencyCostsB">Agency Costs (B, cash)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.agencyCostsB" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label i18n="@@otherCostsA">Other Costs (A, invoiced)</mat-label>
         <input matInput type="number" [(ngModel)]="purchase.otherCosts" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label i18n="@@otherCostsB">Other Costs (B, cash)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.otherCostsB" min="0" />
+        <span matTextPrefix>EUR&nbsp;</span>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label i18n="@@renovationCostsB">Renovation Costs (B, cash)</mat-label>
+        <input matInput type="number" [(ngModel)]="purchase.renovationCostsB" min="0" />
         <span matTextPrefix>EUR&nbsp;</span>
       </mat-form-field>
     </div>

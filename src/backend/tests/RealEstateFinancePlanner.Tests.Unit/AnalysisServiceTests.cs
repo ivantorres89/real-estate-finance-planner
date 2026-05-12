@@ -17,15 +17,17 @@ public class AnalysisServiceTests
             Name = "Test Scenario",
             Sale = new SaleData
             {
-                SalePrice = 250_000m,
+                OfficialSalePriceA = 250_000m,
+                UnofficialSalePriceB = 0m,
                 SaleRelatedCosts = 5_000m,
                 OutstandingMortgageDebt = 120_000m,
                 CurrentCashBalance = 30_000m,
             },
             Purchase = new PurchaseData
             {
-                PurchasePrice = 300_000m,
-                DeedPrice = 280_000m,
+                OfficialPurchasePriceA = 280_000m,
+                UnofficialPurchasePriceB = 20_000m,
+                AppraisalValue = 280_000m,
                 FinanceablePercentage = 80m,
                 ApplyReducedItp = true,
                 NotaryCosts = 1_500m,
@@ -74,13 +76,17 @@ public class AnalysisServiceTests
 
         result.Should().NotBeNull();
         result.SaleLiquidity.Should().NotBeNull();
-        result.SaleLiquidity.NetSaleLiquidity.Should().Be(125_000m);
-        result.SaleLiquidity.RealAvailableCash.Should().Be(155_000m);
+        result.SaleLiquidity.NetSaleLiquidityA.Should().Be(125_000m);
+        result.SaleLiquidity.RealAvailableCashA.Should().Be(155_000m);
+        result.SaleLiquidity.NetSaleLiquidityB.Should().Be(0m);
 
         result.PurchaseCosts.Should().NotBeNull();
         result.PurchaseCosts.ItpAmount.Should().Be(8_400m);
         result.PurchaseCosts.MaxMortgageAmount.Should().Be(224_000m);
-        result.PurchaseCosts.IsViable.Should().BeTrue();
+        result.PurchaseCosts.EntryPaymentA.Should().Be(56_000m);
+        result.PurchaseCosts.EntryPaymentB.Should().Be(20_000m);
+        result.PurchaseCosts.IsViable.Should().BeFalse(); // B side has no cash
+        result.PurchaseCosts.RemainingLiquidityB.Should().Be(-20_000m);
 
         result.DebtCapacity.Should().NotBeNull();
         result.DebtCapacity.MaxMonthlyPaymentCapacity.Should().Be(1_225m);
@@ -99,11 +105,16 @@ public class AnalysisServiceTests
         var scenario = new Scenario
         {
             Name = "No Banks",
-            Sale = new SaleData { SalePrice = 200_000m, CurrentCashBalance = 50_000m },
+            Sale = new SaleData
+            {
+                OfficialSalePriceA = 200_000m,
+                CurrentCashBalance = 50_000m,
+            },
             Purchase = new PurchaseData
             {
-                PurchasePrice = 250_000m,
-                DeedPrice = 240_000m,
+                OfficialPurchasePriceA = 240_000m,
+                UnofficialPurchasePriceB = 10_000m,
+                AppraisalValue = 240_000m,
                 FinanceablePercentage = 80m,
                 ApplyReducedItp = true,
                 BuyerAge = 30,

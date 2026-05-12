@@ -11,7 +11,8 @@ import type {
 
 export function defaultSaleData(): SaleDataDto {
   return {
-    salePrice: 0,
+    officialSalePriceA: 0,
+    unofficialSalePriceB: 0,
     saleRelatedCosts: 0,
     outstandingMortgageDebt: 0,
     currentCashBalance: 0,
@@ -22,14 +23,18 @@ export function defaultSaleData(): SaleDataDto {
 
 export function defaultPurchaseData(): PurchaseDataDto {
   return {
-    purchasePrice: 0,
-    deedPrice: 0,
+    officialPurchasePriceA: 0,
+    unofficialPurchasePriceB: 0,
+    appraisalValue: 0,
     financeablePercentage: 80,
     notaryCosts: 0,
     administrativeCosts: 0,
     appraisalCosts: 0,
     agencyCosts: 0,
+    agencyCostsB: 0,
     otherCosts: 0,
+    otherCostsB: 0,
+    renovationCostsB: 0,
     applyReducedItp: false,
     isMainResidence: true,
     buyerAge: 30,

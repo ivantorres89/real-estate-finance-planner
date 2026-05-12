@@ -49,8 +49,49 @@ public class MongoDbContext
                 {
                     cm.AutoMap();
                     cm.MapIdProperty(s => s.Id)
-                      .SetSerializer(new MongoDB.Bson.Serialization.Serializers.StringSerializer(BsonType.ObjectId))
+                      .SetSerializer(new StringSerializer(BsonType.ObjectId))
                       .SetIdGenerator(MongoDB.Bson.Serialization.IdGenerators.StringObjectIdGenerator.Instance);
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(SaleData)))
+            {
+                BsonClassMap.RegisterClassMap<SaleData>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.MapExtraElementsProperty(nameof(SaleData.LegacyExtraElements));
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(PurchaseData)))
+            {
+                BsonClassMap.RegisterClassMap<PurchaseData>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.MapExtraElementsProperty(nameof(PurchaseData.LegacyExtraElements));
+                });
+            }
+
+            // AnalysisResult, SaleLiquidityResult, PurchaseCostResult: schema changed.
+            // Old documents may still contain legacy fields under LastResult.* We tell
+            // the driver to ignore extra elements on results to avoid crashing on
+            // legacy serialised payloads. The user must re-run the analysis to refresh
+            // them with the new A/B model.
+            if (!BsonClassMap.IsClassMapRegistered(typeof(SaleLiquidityResult)))
+            {
+                BsonClassMap.RegisterClassMap<SaleLiquidityResult>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIgnoreExtraElements(true);
+                });
+            }
+
+            if (!BsonClassMap.IsClassMapRegistered(typeof(PurchaseCostResult)))
+            {
+                BsonClassMap.RegisterClassMap<PurchaseCostResult>(cm =>
+                {
+                    cm.AutoMap();
+                    cm.SetIgnoreExtraElements(true);
                 });
             }
 

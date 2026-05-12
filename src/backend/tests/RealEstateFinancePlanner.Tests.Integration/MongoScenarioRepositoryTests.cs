@@ -1,9 +1,8 @@
 using FluentAssertions;
-using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using RealEstateFinancePlanner.Domain.Entities;
 using RealEstateFinancePlanner.Domain.Enums;
-using RealEstateFinancePlanner.Infrastructure.Configuration;
 using RealEstateFinancePlanner.Infrastructure.Persistence;
 using Testcontainers.MongoDb;
 
@@ -38,15 +37,17 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
         Name = name,
         Sale = new SaleData
         {
-            SalePrice = 250_000m,
+            OfficialSalePriceA = 250_000m,
+            UnofficialSalePriceB = 0m,
             SaleRelatedCosts = 5_000m,
             OutstandingMortgageDebt = 120_000m,
             CurrentCashBalance = 30_000m,
         },
         Purchase = new PurchaseData
         {
-            PurchasePrice = 300_000m,
-            DeedPrice = 280_000m,
+            OfficialPurchasePriceA = 280_000m,
+            UnofficialPurchasePriceB = 20_000m,
+            AppraisalValue = 280_000m,
             FinanceablePercentage = 80m,
             ApplyReducedItp = true,
             NotaryCosts = 1_500m,
@@ -100,8 +101,11 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
 
         retrieved.Should().NotBeNull();
         retrieved!.Name.Should().Be("Integration Test Scenario");
-        retrieved.Sale.SalePrice.Should().Be(250_000m);
-        retrieved.Purchase.DeedPrice.Should().Be(280_000m);
+        retrieved.Sale.OfficialSalePriceA.Should().Be(250_000m);
+        retrieved.Sale.UnofficialSalePriceB.Should().Be(0m);
+        retrieved.Purchase.OfficialPurchasePriceA.Should().Be(280_000m);
+        retrieved.Purchase.UnofficialPurchasePriceB.Should().Be(20_000m);
+        retrieved.Purchase.AppraisalValue.Should().Be(280_000m);
         retrieved.DebtCapacity.MonthlyNetSalary.Should().Be(3_500m);
         retrieved.Banks.Should().HaveCount(1);
         retrieved.Banks[0].BankName.Should().Be("Test Bank");
@@ -126,13 +130,15 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
         var created = await _repository.CreateAsync(scenario);
 
         created.Name = "Updated Name";
-        created.Sale.SalePrice = 300_000m;
+        created.Sale.OfficialSalePriceA = 300_000m;
+        created.Sale.UnofficialSalePriceB = 25_000m;
 
         await _repository.UpdateAsync(created);
 
         var retrieved = await _repository.GetByIdAsync(created.Id);
         retrieved!.Name.Should().Be("Updated Name");
-        retrieved.Sale.SalePrice.Should().Be(300_000m);
+        retrieved.Sale.OfficialSalePriceA.Should().Be(300_000m);
+        retrieved.Sale.UnofficialSalePriceB.Should().Be(25_000m);
     }
 
     [Fact]
@@ -159,13 +165,13 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
     public async Task DecimalPrecision_PreservedInMongoDB()
     {
         var scenario = CreateTestScenario();
-        scenario.Sale.SalePrice = 123_456.78m;
+        scenario.Sale.OfficialSalePriceA = 123_456.78m;
         scenario.Purchase.FinanceablePercentage = 87.5m;
 
         var created = await _repository.CreateAsync(scenario);
         var retrieved = await _repository.GetByIdAsync(created.Id);
 
-        retrieved!.Sale.SalePrice.Should().Be(123_456.78m);
+        retrieved!.Sale.OfficialSalePriceA.Should().Be(123_456.78m);
         retrieved.Purchase.FinanceablePercentage.Should().Be(87.5m);
     }
 
@@ -177,17 +183,31 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
         {
             SaleLiquidity = new SaleLiquidityResult
             {
-                NetSaleLiquidity = 125_000m,
-                RealAvailableCash = 155_000m,
+                OfficialSalePriceA = 250_000m,
+                UnofficialSalePriceB = 0m,
+                TotalSalePrice = 250_000m,
+                NetSaleLiquidityA = 125_000m,
+                NetSaleLiquidityB = 0m,
+                RealAvailableCashA = 155_000m,
+                RealAvailableCashB = 0m,
+                TotalRealAvailableCash = 155_000m,
+                IsSaleViable = true,
             },
             PurchaseCosts = new PurchaseCostResult
             {
+                OfficialPurchasePriceA = 280_000m,
+                UnofficialPurchasePriceB = 20_000m,
+                TotalPurchasePrice = 300_000m,
                 ItpAmount = 8_400m,
                 MaxMortgageAmount = 224_000m,
-                EntryPayment = 76_000m,
-                TotalCashNeeded = 87_100m,
-                RemainingLiquidity = 67_900m,
-                IsViable = true,
+                EntryPaymentA = 56_000m,
+                EntryPaymentB = 20_000m,
+                TotalCashNeededA = 67_100m,
+                TotalCashNeededB = 20_000m,
+                RemainingLiquidityA = 87_900m,
+                RemainingLiquidityB = -20_000m,
+                IsViable = false,
+                BalancingAdvice = "• La parte B no cubre…",
             },
             DebtCapacity = new DebtCapacityResult
             {
@@ -199,7 +219,86 @@ public class MongoScenarioRepositoryTests : IAsyncLifetime
         var retrieved = await _repository.GetByIdAsync(created.Id);
 
         retrieved!.LastResult.Should().NotBeNull();
-        retrieved.LastResult!.SaleLiquidity.NetSaleLiquidity.Should().Be(125_000m);
-        retrieved.LastResult.PurchaseCosts.IsViable.Should().BeTrue();
+        retrieved.LastResult!.SaleLiquidity.NetSaleLiquidityA.Should().Be(125_000m);
+        retrieved.LastResult.PurchaseCosts.IsViable.Should().BeFalse();
+        retrieved.LastResult.PurchaseCosts.EntryPaymentA.Should().Be(56_000m);
+        retrieved.LastResult.PurchaseCosts.BalancingAdvice.Should().Contain("La parte B no cubre");
+    }
+
+    [Fact]
+    public async Task LegacyDocument_WithOldSchema_IsMigratedOnRead()
+    {
+        // Simulate a pre-A/B-split document inserted directly into Mongo by older code.
+        var legacy = new BsonDocument
+        {
+            { "Name", "Legacy Scenario" },
+            {
+                "Sale", new BsonDocument
+                {
+                    { "SalePrice", new BsonDecimal128(250_000m) },
+                    { "SaleRelatedCosts", new BsonDecimal128(5_000m) },
+                    { "OutstandingMortgageDebt", new BsonDecimal128(120_000m) },
+                    { "CurrentCashBalance", new BsonDecimal128(30_000m) },
+                    { "MunicipalCapitalGainsTax", new BsonDecimal128(0m) },
+                    { "ExtraordinaryCosts", new BsonDecimal128(0m) },
+                }
+            },
+            {
+                "Purchase", new BsonDocument
+                {
+                    { "PurchasePrice", new BsonDecimal128(300_000m) },
+                    { "DeedPrice", new BsonDecimal128(280_000m) },
+                    { "FinanceablePercentage", new BsonDecimal128(80m) },
+                    { "NotaryCosts", new BsonDecimal128(0m) },
+                    { "AdministrativeCosts", new BsonDecimal128(0m) },
+                    { "AppraisalCosts", new BsonDecimal128(0m) },
+                    { "AgencyCosts", new BsonDecimal128(0m) },
+                    { "OtherCosts", new BsonDecimal128(0m) },
+                    { "ApplyReducedItp", true },
+                    { "IsMainResidence", true },
+                    { "BuyerAge", 30 },
+                }
+            },
+            {
+                "DebtCapacity", new BsonDocument
+                {
+                    { "MonthlyNetSalary", new BsonDecimal128(3_000m) },
+                    { "MonthlyOutstandingLoanPayments", new BsonDecimal128(0m) },
+                    { "MaxDebtRatioPercentage", new BsonDecimal128(35m) },
+                }
+            },
+            { "Banks", new BsonArray() },
+            { "StrategyParameters", new BsonDocument
+                {
+                    { "ExpectedAnnualReturnConservative", new BsonDecimal128(3m) },
+                    { "ExpectedAnnualReturnBase", new BsonDecimal128(6m) },
+                    { "ExpectedAnnualReturnOptimistic", new BsonDecimal128(9m) },
+                    { "UseNetReturns", true },
+                    { "AnalysisHorizonYears", 20 },
+                    { "MinimumLiquidityCushion", new BsonDecimal128(10_000m) },
+                    { "RiskProfile", "Balanced" },
+                    { "AdditionalCapitalToPreserve", new BsonDecimal128(0m) },
+                }
+            },
+            { "CreatedAt", DateTime.UtcNow },
+            { "UpdatedAt", DateTime.UtcNow },
+        };
+
+        var rawCollection = _context.Scenarios.Database.GetCollection<BsonDocument>("scenarios");
+        await rawCollection.InsertOneAsync(legacy);
+        var id = legacy["_id"].AsObjectId.ToString();
+
+        var migrated = await _repository.GetByIdAsync(id);
+
+        migrated.Should().NotBeNull();
+        migrated!.Sale.OfficialSalePriceA.Should().Be(250_000m);
+        migrated.Sale.UnofficialSalePriceB.Should().Be(0m);
+        migrated.Sale.LegacyExtraElements.Should().BeNull();
+        migrated.Purchase.OfficialPurchasePriceA.Should().Be(300_000m);
+        migrated.Purchase.UnofficialPurchasePriceB.Should().Be(0m);
+        migrated.Purchase.AppraisalValue.Should().Be(280_000m);
+        migrated.Purchase.RenovationCostsB.Should().Be(0m);
+        migrated.Purchase.LegacyExtraElements.Should().BeNull();
+        migrated.LastResult.Should().BeNull(); // Cleared because schema changed
     }
 }

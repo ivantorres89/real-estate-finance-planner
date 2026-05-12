@@ -104,8 +104,37 @@ Where: P = principal, r = monthly interest rate (TIN/12/100), n = total months.
 
 ### ITP (Transfer Tax)
 
-- Standard: **6%** of deed price
-- Reduced (large family / disability): **3%** of deed price
+- Standard: **6%** of official purchase price A
+- Reduced (large family / disability): **3%** of official purchase price A
+
+### Dual A/B Accounting
+
+Sale and purchase are split into two accountings:
+
+- **Side A (official)** — what gets written on the deed. The seller's outstanding mortgage cancellation, sale-related costs, ITP, notary, gestoria, appraisal, agency, other purchase costs, and the mortgage entry payment all draw from A.
+- **Side B (cash)** — off-the-books money. Cannot cancel a mortgage, cannot count toward the new mortgage's LTV, and cannot be deposited into a bank account without a paper trail. Suitable for: off-the-books premium paid to the new seller, and B-side renovations.
+
+```
+totalSaleDeductionsA = saleRelatedCosts + outstandingMortgageDebt + capitalGainsTax + extraordinaryCosts
+netSaleLiquidityA    = officialSalePriceA - totalSaleDeductionsA
+netSaleLiquidityB    = unofficialSalePriceB
+realAvailableCashA   = currentCashBalance + netSaleLiquidityA
+realAvailableCashB   = netSaleLiquidityB
+
+effectiveAppraisal   = appraisalValue > 0 ? appraisalValue : officialPurchasePriceA
+mortgageBaseValue    = min(officialPurchasePriceA, effectiveAppraisal)
+maxMortgage          = mortgageBaseValue × financeablePercentage/100
+itp                  = officialPurchasePriceA × itpRate
+entryPaymentA        = max(0, officialPurchasePriceA - maxMortgage)
+entryPaymentB        = unofficialPurchasePriceB
+totalCashNeededA     = entryPaymentA + itp + notary + admin + appraisal + agency + other
+totalCashNeededB     = entryPaymentB + renovationCostsB
+remainingLiquidityA  = realAvailableCashA - totalCashNeededA
+remainingLiquidityB  = realAvailableCashB - totalCashNeededB
+idleCashB            = max(0, remainingLiquidityB)
+```
+
+The operation is **viable** when `realAvailableCashA >= 0`, `remainingLiquidityA >= 0` and `remainingLiquidityB >= 0`. The calculator emits a multi-line `BalancingAdvice` that flags shortfalls on A or B, idle B cash above 5,000 EUR, and appraisal-capped mortgages.
 
 ### Strategy Comparison
 

@@ -75,6 +75,53 @@
   }
 }
 
+.accounting-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 12px 0;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.accounting-col h4 {
+  margin-top: 0;
+  font-size: 1.05rem;
+  color: #64b5f6;
+}
+
+.totals-row {
+  padding-top: 8px;
+}
+
+.viable-row {
+  padding-top: 12px;
+}
+
+.idle-cash-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  background: rgba(244, 67, 54, 0.15);
+  color: #ff8a80;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.balancing-advice {
+  white-space: pre-line;
+  background: rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+  border-radius: 6px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin-top: 8px;
+}
+
 .strategy-col h4 {
   margin-bottom: 12px;
   font-size: 1.1rem;

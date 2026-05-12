@@ -3,7 +3,8 @@ import { BonusCategory, RiskProfile } from './enums';
 // ---- Shared DTOs ----
 
 export interface SaleDataDto {
-  salePrice: number;
+  officialSalePriceA: number;
+  unofficialSalePriceB: number;
   saleRelatedCosts: number;
   outstandingMortgageDebt: number;
   currentCashBalance: number;
@@ -12,14 +13,18 @@ export interface SaleDataDto {
 }
 
 export interface PurchaseDataDto {
-  purchasePrice: number;
-  deedPrice: number;
+  officialPurchasePriceA: number;
+  unofficialPurchasePriceB: number;
+  appraisalValue: number;
   financeablePercentage: number;
   notaryCosts: number;
   administrativeCosts: number;
   appraisalCosts: number;
   agencyCosts: number;
+  agencyCostsB: number;
   otherCosts: number;
+  otherCostsB: number;
+  renovationCostsB: number;
   applyReducedItp: boolean;
   isMainResidence: boolean;
   buyerAge: number;
@@ -85,7 +90,8 @@ export interface SaleLiquidityRequest {
 
 export interface PurchaseCostRequest {
   purchase: PurchaseDataDto;
-  realAvailableCash: number;
+  realAvailableCashA: number;
+  realAvailableCashB: number;
 }
 
 export interface DebtCapacityRequest {
@@ -109,10 +115,10 @@ export interface BankOfferEvaluationRequest {
 }
 
 export interface StrategyComparisonRequest {
-  realAvailableCash: number;
-  purchasePrice: number;
+  realAvailableCashA: number;
+  officialPurchasePriceA: number;
   maxMortgageAmount: number;
-  totalPurchaseCostsExcludingEntry: number;
+  totalPurchaseCostsExcludingEntryA: number;
   mortgageTin: number;
   termYears: number;
   monthlyNetSalary: number;
@@ -154,32 +160,50 @@ export interface AnalysisResultResponse {
 }
 
 export interface SaleLiquidityResultDto {
-  salePrice: number;
+  officialSalePriceA: number;
+  unofficialSalePriceB: number;
+  totalSalePrice: number;
   saleRelatedCosts: number;
   outstandingMortgageDebt: number;
   municipalCapitalGainsTax: number;
   extraordinaryCosts: number;
-  totalSaleDeductions: number;
-  netSaleLiquidity: number;
+  totalSaleDeductionsA: number;
+  netSaleLiquidityA: number;
+  netSaleLiquidityB: number;
   currentCashBalance: number;
-  realAvailableCash: number;
+  realAvailableCashA: number;
+  realAvailableCashB: number;
+  totalRealAvailableCash: number;
+  isSaleViable: boolean;
 }
 
 export interface PurchaseCostResultDto {
-  purchasePrice: number;
-  deedPrice: number;
+  officialPurchasePriceA: number;
+  unofficialPurchasePriceB: number;
+  totalPurchasePrice: number;
+  appraisalValue: number;
+  effectiveAppraisalValue: number;
+  mortgageBaseValue: number;
   financeablePercentage: number;
   itpAmount: number;
   maxMortgageAmount: number;
-  entryPayment: number;
+  entryPaymentA: number;
+  entryPaymentB: number;
   notaryCosts: number;
   administrativeCosts: number;
   appraisalCosts: number;
   agencyCosts: number;
+  agencyCostsB: number;
   otherCosts: number;
-  totalCashNeeded: number;
-  remainingLiquidity: number;
+  otherCostsB: number;
+  renovationCostsB: number;
+  totalCashNeededA: number;
+  totalCashNeededB: number;
+  remainingLiquidityA: number;
+  remainingLiquidityB: number;
+  idleCashB: number;
   isViable: boolean;
+  balancingAdvice: string;
 }
 
 export interface DebtCapacityResultDto {

@@ -21,7 +21,8 @@ public class UpdateScenarioRequest : CreateScenarioRequest { }
 
 public class SaleDataDto
 {
-    [Range(0, double.MaxValue)] public decimal SalePrice { get; set; }
+    [Range(0, double.MaxValue)] public decimal OfficialSalePriceA { get; set; }
+    [Range(0, double.MaxValue)] public decimal UnofficialSalePriceB { get; set; }
     [Range(0, double.MaxValue)] public decimal SaleRelatedCosts { get; set; }
     [Range(0, double.MaxValue)] public decimal OutstandingMortgageDebt { get; set; }
     [Range(0, double.MaxValue)] public decimal CurrentCashBalance { get; set; }
@@ -31,14 +32,18 @@ public class SaleDataDto
 
 public class PurchaseDataDto
 {
-    [Range(0, double.MaxValue)] public decimal PurchasePrice { get; set; }
-    [Range(0, double.MaxValue)] public decimal DeedPrice { get; set; }
+    [Range(0, double.MaxValue)] public decimal OfficialPurchasePriceA { get; set; }
+    [Range(0, double.MaxValue)] public decimal UnofficialPurchasePriceB { get; set; }
+    [Range(0, double.MaxValue)] public decimal AppraisalValue { get; set; }
     [Range(0, 100)] public decimal FinanceablePercentage { get; set; } = 80m;
     [Range(0, double.MaxValue)] public decimal NotaryCosts { get; set; }
     [Range(0, double.MaxValue)] public decimal AdministrativeCosts { get; set; }
     [Range(0, double.MaxValue)] public decimal AppraisalCosts { get; set; }
     [Range(0, double.MaxValue)] public decimal AgencyCosts { get; set; }
+    [Range(0, double.MaxValue)] public decimal AgencyCostsB { get; set; }
     [Range(0, double.MaxValue)] public decimal OtherCosts { get; set; }
+    [Range(0, double.MaxValue)] public decimal OtherCostsB { get; set; }
+    [Range(0, double.MaxValue)] public decimal RenovationCostsB { get; set; }
     public bool ApplyReducedItp { get; set; }
     public bool IsMainResidence { get; set; } = true;
     [Range(18, 100)] public int BuyerAge { get; set; }
@@ -99,7 +104,8 @@ public class SaleLiquidityRequest
 public class PurchaseCostRequest
 {
     [Required] public PurchaseDataDto Purchase { get; set; } = new();
-    [Range(0, double.MaxValue)] public decimal RealAvailableCash { get; set; }
+    [Range(0, double.MaxValue)] public decimal RealAvailableCashA { get; set; }
+    [Range(0, double.MaxValue)] public decimal RealAvailableCashB { get; set; }
 }
 
 public class DebtCapacityRequest
@@ -127,10 +133,10 @@ public class BankOfferEvaluationRequest
 
 public class StrategyComparisonRequest
 {
-    [Range(0, double.MaxValue)] public decimal RealAvailableCash { get; set; }
-    [Range(0.01, double.MaxValue)] public decimal PurchasePrice { get; set; }
+    [Range(0, double.MaxValue)] public decimal RealAvailableCashA { get; set; }
+    [Range(0.01, double.MaxValue)] public decimal OfficialPurchasePriceA { get; set; }
     [Range(0, double.MaxValue)] public decimal MaxMortgageAmount { get; set; }
-    [Range(0, double.MaxValue)] public decimal TotalPurchaseCostsExcludingEntry { get; set; }
+    [Range(0, double.MaxValue)] public decimal TotalPurchaseCostsExcludingEntryA { get; set; }
     [Range(0, 20)] public decimal MortgageTin { get; set; }
     [Range(1, 50)] public int TermYears { get; set; }
     [Range(0, double.MaxValue)] public decimal MonthlyNetSalary { get; set; }
@@ -176,33 +182,51 @@ public class AnalysisResultResponse
 
 public class SaleLiquidityResultDto
 {
-    public decimal SalePrice { get; set; }
+    public decimal OfficialSalePriceA { get; set; }
+    public decimal UnofficialSalePriceB { get; set; }
+    public decimal TotalSalePrice { get; set; }
     public decimal SaleRelatedCosts { get; set; }
     public decimal OutstandingMortgageDebt { get; set; }
     public decimal MunicipalCapitalGainsTax { get; set; }
     public decimal ExtraordinaryCosts { get; set; }
-    public decimal TotalSaleDeductions { get; set; }
-    public decimal NetSaleLiquidity { get; set; }
+    public decimal TotalSaleDeductionsA { get; set; }
+    public decimal NetSaleLiquidityA { get; set; }
+    public decimal NetSaleLiquidityB { get; set; }
     public decimal CurrentCashBalance { get; set; }
-    public decimal RealAvailableCash { get; set; }
+    public decimal RealAvailableCashA { get; set; }
+    public decimal RealAvailableCashB { get; set; }
+    public decimal TotalRealAvailableCash { get; set; }
+    public bool IsSaleViable { get; set; }
 }
 
 public class PurchaseCostResultDto
 {
-    public decimal PurchasePrice { get; set; }
-    public decimal DeedPrice { get; set; }
+    public decimal OfficialPurchasePriceA { get; set; }
+    public decimal UnofficialPurchasePriceB { get; set; }
+    public decimal TotalPurchasePrice { get; set; }
+    public decimal AppraisalValue { get; set; }
+    public decimal EffectiveAppraisalValue { get; set; }
+    public decimal MortgageBaseValue { get; set; }
     public decimal FinanceablePercentage { get; set; }
     public decimal ItpAmount { get; set; }
     public decimal MaxMortgageAmount { get; set; }
-    public decimal EntryPayment { get; set; }
+    public decimal EntryPaymentA { get; set; }
+    public decimal EntryPaymentB { get; set; }
     public decimal NotaryCosts { get; set; }
     public decimal AdministrativeCosts { get; set; }
     public decimal AppraisalCosts { get; set; }
     public decimal AgencyCosts { get; set; }
+    public decimal AgencyCostsB { get; set; }
     public decimal OtherCosts { get; set; }
-    public decimal TotalCashNeeded { get; set; }
-    public decimal RemainingLiquidity { get; set; }
+    public decimal OtherCostsB { get; set; }
+    public decimal RenovationCostsB { get; set; }
+    public decimal TotalCashNeededA { get; set; }
+    public decimal TotalCashNeededB { get; set; }
+    public decimal RemainingLiquidityA { get; set; }
+    public decimal RemainingLiquidityB { get; set; }
+    public decimal IdleCashB { get; set; }
     public bool IsViable { get; set; }
+    public string BalancingAdvice { get; set; } = string.Empty;
 }
 
 public class DebtCapacityResultDto

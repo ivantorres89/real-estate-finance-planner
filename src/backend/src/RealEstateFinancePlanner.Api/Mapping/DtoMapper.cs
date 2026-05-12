@@ -33,7 +33,8 @@ public static class DtoMapper
 
     public static SaleDataDto ToDto(this SaleData e) => new()
     {
-        SalePrice = e.SalePrice,
+        OfficialSalePriceA = e.OfficialSalePriceA,
+        UnofficialSalePriceB = e.UnofficialSalePriceB,
         SaleRelatedCosts = e.SaleRelatedCosts,
         OutstandingMortgageDebt = e.OutstandingMortgageDebt,
         CurrentCashBalance = e.CurrentCashBalance,
@@ -43,14 +44,18 @@ public static class DtoMapper
 
     public static PurchaseDataDto ToDto(this PurchaseData e) => new()
     {
-        PurchasePrice = e.PurchasePrice,
-        DeedPrice = e.DeedPrice,
+        OfficialPurchasePriceA = e.OfficialPurchasePriceA,
+        UnofficialPurchasePriceB = e.UnofficialPurchasePriceB,
+        AppraisalValue = e.AppraisalValue,
         FinanceablePercentage = e.FinanceablePercentage,
         NotaryCosts = e.NotaryCosts,
         AdministrativeCosts = e.AdministrativeCosts,
         AppraisalCosts = e.AppraisalCosts,
         AgencyCosts = e.AgencyCosts,
+        AgencyCostsB = e.AgencyCostsB,
         OtherCosts = e.OtherCosts,
+        OtherCostsB = e.OtherCostsB,
+        RenovationCostsB = e.RenovationCostsB,
         ApplyReducedItp = e.ApplyReducedItp,
         IsMainResidence = e.IsMainResidence,
         BuyerAge = e.BuyerAge,
@@ -105,32 +110,50 @@ public static class DtoMapper
     {
         SaleLiquidity = new SaleLiquidityResultDto
         {
-            SalePrice = e.SaleLiquidity.SalePrice,
+            OfficialSalePriceA = e.SaleLiquidity.OfficialSalePriceA,
+            UnofficialSalePriceB = e.SaleLiquidity.UnofficialSalePriceB,
+            TotalSalePrice = e.SaleLiquidity.TotalSalePrice,
             SaleRelatedCosts = e.SaleLiquidity.SaleRelatedCosts,
             OutstandingMortgageDebt = e.SaleLiquidity.OutstandingMortgageDebt,
             MunicipalCapitalGainsTax = e.SaleLiquidity.MunicipalCapitalGainsTax,
             ExtraordinaryCosts = e.SaleLiquidity.ExtraordinaryCosts,
-            TotalSaleDeductions = e.SaleLiquidity.TotalSaleDeductions,
-            NetSaleLiquidity = e.SaleLiquidity.NetSaleLiquidity,
+            TotalSaleDeductionsA = e.SaleLiquidity.TotalSaleDeductionsA,
+            NetSaleLiquidityA = e.SaleLiquidity.NetSaleLiquidityA,
+            NetSaleLiquidityB = e.SaleLiquidity.NetSaleLiquidityB,
             CurrentCashBalance = e.SaleLiquidity.CurrentCashBalance,
-            RealAvailableCash = e.SaleLiquidity.RealAvailableCash,
+            RealAvailableCashA = e.SaleLiquidity.RealAvailableCashA,
+            RealAvailableCashB = e.SaleLiquidity.RealAvailableCashB,
+            TotalRealAvailableCash = e.SaleLiquidity.TotalRealAvailableCash,
+            IsSaleViable = e.SaleLiquidity.IsSaleViable,
         },
         PurchaseCosts = new PurchaseCostResultDto
         {
-            PurchasePrice = e.PurchaseCosts.PurchasePrice,
-            DeedPrice = e.PurchaseCosts.DeedPrice,
+            OfficialPurchasePriceA = e.PurchaseCosts.OfficialPurchasePriceA,
+            UnofficialPurchasePriceB = e.PurchaseCosts.UnofficialPurchasePriceB,
+            TotalPurchasePrice = e.PurchaseCosts.TotalPurchasePrice,
+            AppraisalValue = e.PurchaseCosts.AppraisalValue,
+            EffectiveAppraisalValue = e.PurchaseCosts.EffectiveAppraisalValue,
+            MortgageBaseValue = e.PurchaseCosts.MortgageBaseValue,
             FinanceablePercentage = e.PurchaseCosts.FinanceablePercentage,
             ItpAmount = e.PurchaseCosts.ItpAmount,
             MaxMortgageAmount = e.PurchaseCosts.MaxMortgageAmount,
-            EntryPayment = e.PurchaseCosts.EntryPayment,
+            EntryPaymentA = e.PurchaseCosts.EntryPaymentA,
+            EntryPaymentB = e.PurchaseCosts.EntryPaymentB,
             NotaryCosts = e.PurchaseCosts.NotaryCosts,
             AdministrativeCosts = e.PurchaseCosts.AdministrativeCosts,
             AppraisalCosts = e.PurchaseCosts.AppraisalCosts,
             AgencyCosts = e.PurchaseCosts.AgencyCosts,
+            AgencyCostsB = e.PurchaseCosts.AgencyCostsB,
             OtherCosts = e.PurchaseCosts.OtherCosts,
-            TotalCashNeeded = e.PurchaseCosts.TotalCashNeeded,
-            RemainingLiquidity = e.PurchaseCosts.RemainingLiquidity,
+            OtherCostsB = e.PurchaseCosts.OtherCostsB,
+            RenovationCostsB = e.PurchaseCosts.RenovationCostsB,
+            TotalCashNeededA = e.PurchaseCosts.TotalCashNeededA,
+            TotalCashNeededB = e.PurchaseCosts.TotalCashNeededB,
+            RemainingLiquidityA = e.PurchaseCosts.RemainingLiquidityA,
+            RemainingLiquidityB = e.PurchaseCosts.RemainingLiquidityB,
+            IdleCashB = e.PurchaseCosts.IdleCashB,
             IsViable = e.PurchaseCosts.IsViable,
+            BalancingAdvice = e.PurchaseCosts.BalancingAdvice,
         },
         DebtCapacity = new DebtCapacityResultDto
         {
@@ -218,7 +241,8 @@ public static class DtoMapper
 
     public static SaleData ToEntity(this SaleDataDto dto) => new()
     {
-        SalePrice = dto.SalePrice,
+        OfficialSalePriceA = dto.OfficialSalePriceA,
+        UnofficialSalePriceB = dto.UnofficialSalePriceB,
         SaleRelatedCosts = dto.SaleRelatedCosts,
         OutstandingMortgageDebt = dto.OutstandingMortgageDebt,
         CurrentCashBalance = dto.CurrentCashBalance,
@@ -228,14 +252,18 @@ public static class DtoMapper
 
     public static PurchaseData ToEntity(this PurchaseDataDto dto) => new()
     {
-        PurchasePrice = dto.PurchasePrice,
-        DeedPrice = dto.DeedPrice,
+        OfficialPurchasePriceA = dto.OfficialPurchasePriceA,
+        UnofficialPurchasePriceB = dto.UnofficialPurchasePriceB,
+        AppraisalValue = dto.AppraisalValue,
         FinanceablePercentage = dto.FinanceablePercentage,
         NotaryCosts = dto.NotaryCosts,
         AdministrativeCosts = dto.AdministrativeCosts,
         AppraisalCosts = dto.AppraisalCosts,
         AgencyCosts = dto.AgencyCosts,
+        AgencyCostsB = dto.AgencyCostsB,
         OtherCosts = dto.OtherCosts,
+        OtherCostsB = dto.OtherCostsB,
+        RenovationCostsB = dto.RenovationCostsB,
         ApplyReducedItp = dto.ApplyReducedItp,
         IsMainResidence = dto.IsMainResidence,
         BuyerAge = dto.BuyerAge,
